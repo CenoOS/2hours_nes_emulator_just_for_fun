@@ -8,7 +8,7 @@ namespace cpu
 
     CPU::CPU()
     {
-        
+        this->initOpHandlerTable();
     }
 
     /**
@@ -242,40 +242,8 @@ return 0;
         return 0;
     }
 
-    
-    mos6502::i8 CPU::setFlag(mos6502::i8 flag){
-        this->P &= ~(0x1 << flag);
-        return this->P;
-    }
 
-    mos6502::i8 CPU::getFlag(mos6502::i8 flag){
-        return ((0x1 << flag) & this->P) >> flag;
-    }
-
-    mos6502::i8 CPU::reset(){
-        this->memory = (mos6502::i8 *)malloc(0x10000 * sizeof(mos6502::i8));
-        if(!this->memory){ // MEMORY ALLOC FAILED. 
-            return -1;
-        }
-
-        this->P = 0b0010000;
-
-        for(int i = 0; i<0x2000; i++){
-            this->memory[i] = 0xFF;
-        }
-        
-        for(int i = 0x2000; i<0x8000; i++){
-            this->memory[i] = 0;
-        }
-
-        this->PC = this->resetVector;
-
-        this->A = 0;
-        this->X = 0;
-        this->Y = 0;
-
-        this->P = this->getProcessorFlags();
-
+    void CPU::initOpHandlerTable(){
         // init ophandler map
         this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0x69,&CPU::ADC));
         this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0x64,&CPU::ADC));
@@ -484,6 +452,50 @@ return 0;
 
         this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0x9A,&CPU::TXS));
 
+ 
+    }
+
+    void CPU::initOpCylesTable(){
+
+    }
+
+    void CPU::initOpBytesTable(){
+
+    }
+    
+    mos6502::i8 CPU::setFlag(mos6502::i8 flag){
+        this->P &= ~(0x1 << flag);
+        return this->P;
+    }
+
+    mos6502::i8 CPU::getFlag(mos6502::i8 flag){
+        return ((0x1 << flag) & this->P) >> flag;
+    }
+
+    mos6502::i8 CPU::reset(){
+        this->memory = (mos6502::i8 *)malloc(0x10000 * sizeof(mos6502::i8));
+        if(!this->memory){ // MEMORY ALLOC FAILED. 
+            return -1;
+        }
+
+        this->P = 0b0010000;
+
+        for(int i = 0; i<0x2000; i++){
+            this->memory[i] = 0xFF;
+        }
+        
+        for(int i = 0x2000; i<0x8000; i++){
+            this->memory[i] = 0;
+        }
+
+        this->PC = this->resetVector;
+
+        this->A = 0;
+        this->X = 0;
+        this->Y = 0;
+
+        this->P = this->getProcessorFlags();
+       
         return 1;
     }
 

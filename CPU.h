@@ -144,6 +144,10 @@ namespace cpu
             mos6502::i16 TAY(mos6502::i16 op);
             mos6502::i16 TSX(mos6502::i16 op);
             mos6502::i16 TXS(mos6502::i16 op);
+            
+            void initOpHandlerTable();
+            void initOpCylesTable();
+            void initOpBytesTable();
     public:
         CPU();
 
