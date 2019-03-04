@@ -1,6 +1,6 @@
 CXX = g++
 LD = ld
-CCFLAGS =  -std=c++11 -Wall -fexceptions -I 
+CCFLAGS =  -std=c++11 -Wall -lstdc++
 # ifeq ($(OS),Windows_NT)
 #     CCFLAGS += -D WIN32
 #     ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
@@ -32,17 +32,16 @@ CCFLAGS =  -std=c++11 -Wall -fexceptions -I
 #         CCFLAGS += -D ARM
 #     endif
 # endif
-all:
-	make ld
 
-ld:	TEST.o	CPU.o
-	$(LD) -o TEST.o CPU.o -lcrt -lgcc
+
+all:	CPU.o	TEST.o	
+	cc -o CPU_TEST TEST.o CPU.o -lstdc++
 
 TEST.o:	TEST.cpp
-	$(CXX) $(CCFLAGS) -o -c TEST.cpp
+	cc $(CCFLAGS) -o TEST.o -c TEST.cpp
 
 CPU.o:	CPU.cpp CPU.h
-	$(CXX) $(CCFLAGS) -o -c CPU.cpp
+	cc $(CCFLAGS) -o CPU.o -c CPU.cpp
 
 clean:
     ifeq ($(OS),Windows_NT)

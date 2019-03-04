@@ -32,20 +32,20 @@ int main(int argc, char *argv[]){
         char c;
         nesFile.get(c);
         if(nesFile){
-            // if(clm==0){
-            //     std::cout<<line<<": ";
-            // }
-            // if(((0x000000ff)&int(c))<0x10){
-            //     std::cout<<"0X0"<<std::hex<<((0x000000ff)&int(c))<<" ";
-            // }else{
-            //     std::cout<<"0X"<<std::hex<<((0x000000ff)&int(c))<<" ";
-            // }
-            // clm++;
-            // if(clm==0x10){
-            //     clm = 0;
-            //     std::cout<<std::endl;
-            //     line++;
-            // }
+            if(clm==0){
+                 std::cout<<line<<": ";
+            }
+            if(((0x000000ff)&int(c))<0x10){
+                std::cout<<"0X0"<<std::hex<<((0x000000ff)&int(c))<<" ";
+            }else{
+                std::cout<<"0X"<<std::hex<<((0x000000ff)&int(c))<<" ";
+            }
+            clm++;
+            if(clm==0x10){
+                clm = 0;
+                std::cout<<std::endl;
+                line++;
+            }
 
             prog.push_back((0xffff)&(int)c);
         }

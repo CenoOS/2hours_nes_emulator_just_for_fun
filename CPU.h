@@ -83,9 +83,10 @@ namespace cpu
             } AddressingMode;
 
             AddressingMode addrMode;
+
             /**************************OP **************************/
-            typedef mos6502::i16 (CPU::*opHandler)(mos6502::i16);
-            std::map<mos6502::i16,opHandler> opHandlerTable;
+            typedef mos6502::i16 (CPU::*opHandler)(mos6502::i16); // pointer to CPU's member function.
+            std::map<mos6502::i16,opHandler> opHandlerTable;      // op handler map
 
             mos6502::i16 ADC(mos6502::i16 op);
             mos6502::i16 SBC(mos6502::i16 op);
