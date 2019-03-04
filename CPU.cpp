@@ -320,7 +320,7 @@ return 0;
 
         this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0xF0,&CPU::BEQ));
 
-        this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0xD0,&CPU::BEN));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0xD0,&CPU::BNE));
 
         this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0x24,&CPU::BIT));
         this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0x2C,&CPU::BIT));
@@ -647,8 +647,9 @@ return 0;
                 break;
 
         }*/
-        opHandler opHdr = this->opHandlerTable[op];
-        return opHdr(op);
+        mos6502::i16 (CPU::*opHdr)(mos6502::i16) = this->opHandlerTable[op];
+        
+        return (this->*opHdr)(op);
     }
 
     mos6502::i16 CPU::execute(){
