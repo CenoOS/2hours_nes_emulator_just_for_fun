@@ -1,236 +1,239 @@
 #include "CPU.h"
+#include <memory>
 
 
 namespace cpu
 {
 
+    typedef mos6502::i16 (CPU::*opHandler)(mos6502::i16);
+
     CPU::CPU()
     {
-        this->opHandlerTable[0x00] = (opHandler)ADC;
+        this->opHandlerTable.insert(std::pair<mos6502::i16,opHandler>(0x00,CPU::ADC));
     }
 
     mos6502::i16 CPU::ADC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::SBC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::AND(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::EOR(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::ORA(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::ASL(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::LSR(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::ROL(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::ROR(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BCC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BCS(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BEQ(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BNE(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BIT(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BMI(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BPL(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BRK(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BVC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::BVS(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::CLC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::SEC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::CLD(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::SED(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::CLR(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::SEI(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::CLV(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::CMP(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::CPX(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::CPY(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::DEC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::DEX(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::DEY(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::INC(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::INX(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::INY(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::JMP(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::JSR(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::RTS(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::LDA(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::LDX(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::LDY(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::NOP(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::PHA(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::PLA(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::PHP(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::PLP(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::RTI(mos6502::i16 op){
-
+return 0;
     }
 
     mos6502::i16 CPU::STA(mos6502::i16 op){
-
+        return 0;
     }
 
     mos6502::i16 CPU::STX(mos6502::i16 op){
-
+        return 0;
     }
 
     mos6502::i16 CPU::STY(mos6502::i16 op){
-
+        return 0;
     }
 
     mos6502::i16 CPU::TAX(mos6502::i16 op){
-
+        return 0;
     }
 
-    mos6502::i16 CPU::TXA(mos6502::i16 op){
-
+    mos6502::i16 CPU::TXA(mos6502::i16 op){ 
+        return 0;
     }
 
     mos6502::i16 CPU::TYA(mos6502::i16 op){
-
+        return 0;
     }
 
     mos6502::i16 CPU::TAY(mos6502::i16 op){
-
+        return 0;
     }
 
     mos6502::i16 CPU::TSX(mos6502::i16 op){
-
+        return 0;
     }
 
     mos6502::i16 CPU::TXS(mos6502::i16 op){
-
+        return 0;
     }
 
     
@@ -244,7 +247,7 @@ namespace cpu
     }
 
     mos6502::i8 CPU::reset(){
-        this->memory = (mos6502::i16 *)malloc(0x10000 * sizeof(mos6502::i16));
+        this->memory = (mos6502::i8 *)malloc(0x10000 * sizeof(mos6502::i8));
         if(!this->memory){ // MEMORY ALLOC FAILED. 
             return -1;
         }
@@ -267,24 +270,26 @@ namespace cpu
 
         this->P = this->getProcessorFlags();
 
+        return 1;
     }
 
     mos6502::i8 CPU::getProcessorFlags(){
         return this->P;
     }
 
-    mos6502::i8  CPU::write(mos6502::i16 addr, mos6502::i16 data){
+    mos6502::i8  CPU::write(mos6502::i16 addr, mos6502::i8 data){
         this->memory[addr] = data;
         return data;
     }
 
-    mos6502::i16 CPU::read(mos6502::i16 addr){
+    mos6502::i8 CPU::read(mos6502::i16 addr){
         return this->memory[addr];
     }
 
 
     mos6502::i16 CPU::fetch(){
         this->PC++;
+        return this->PC;
     }
 
     opHandler CPU::getOpHandler(mos6502::i16 op){
@@ -412,11 +417,13 @@ namespace cpu
 
             default:
                 break;
+
         }
+        return 0;
     }
 
     mos6502::i16 CPU::execute(){
-
+        return 0;
     }
 
 

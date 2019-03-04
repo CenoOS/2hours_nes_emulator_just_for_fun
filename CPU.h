@@ -6,14 +6,14 @@
 
 namespace cpu
 {
-    typedef mos6502::i16 (*opHandler)(mos6502::i16);
     class CPU
     {
+    
     private:
             /**************************REGISTER**************************/
             // SPECIAL-PURPOSE REGISTER
             mos6502::i16 PC;
-            mos6502::i8  SP = 0X1FF;    // 0X100 - 0X1FF , GROES DOWNWORDS.
+            mos6502::i8  SP = 0XFF;    // 0X100 - 0X1FF , GROES DOWNWORDS.
             mos6502::i8  P;               // PROCESSOR FLAG,BELOW ARE DETAILS:
                 mos6502::i8  CarryFlag              = 0x1; // (0x1<<0 & P)>>0;     // SET IF THE LAST INSTRACTION RESULTED IN AN OVER OR UNDERFLOW. 
                                                                                                 // USED FOR ARITHMETIC ON NUMBERS LARGER THAN ONE BYTE, 
@@ -44,7 +44,7 @@ namespace cpu
 
             /**************************MEMORY **************************/
             // THE NES HAS A 16 BIT ADDRESS BUS, CAN ADDRESS UP TO 16 KB OF MEMORY, FROM 0X0000 TO 0XFFFF. 
-            mos6502::i16 *memory;
+            mos6502::i8 *memory;
             // ADDRESS
             mos6502::i16 zeroPage              = 0x0;
             mos6502::i16 stack                  = 0x1FF;   // 0X100 TO 0X1FF, THE SP WILLA WRAP IF IT EXCEEDS ITS CAPACITY.
@@ -66,7 +66,7 @@ namespace cpu
             mos6502::i16 Reset;
 
             /**************************ADDRESS MODE **************************/
-            enum AddressingMode{
+            typedef enum AddressingMode{
                 IMPLICIT,
                 ACCEUMULATOR,
                 IMMEDIATE,
@@ -80,10 +80,11 @@ namespace cpu
                 INDIRECT,
                 INDEXED_INDIRECT,
                 INDIRECT_INDEXED,
-            };
+            } AddressingMode;
 
-
+            AddressingMode addrMode;
             /**************************OP **************************/
+            typedef mos6502::i16 (CPU::*opHandler)(mos6502::i16);
             std::map<mos6502::i16,opHandler> opHandlerTable;
 
             mos6502::i16 ADC(mos6502::i16 op);
@@ -152,15 +153,15 @@ namespace cpu
 
         opHandler getOpHandler(mos6502::i16 op);
 
-        mos6502::i8  write(mos6502::i16 addr, mos6502::i16 data);
-        mos6502::i16 read(mos6502::i16 addr);
+        mos6502::i8  write(mos6502::i16 addr, mos6502::i8 data);
+        mos6502::i8 read(mos6502::i16 addr);
 
         mos6502::i16 fetch();
         mos6502::i16 decode();
         mos6502::i16 execute();
 
         ~CPU();
-    };    
+    };
 } // cpu
 
 
