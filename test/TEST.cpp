@@ -17,21 +17,22 @@ int main(int argc, char *argv[]){
         return -1;
     }
     
-    rom_test(argv[1]);
-    cpu_test();
-
-    return 0;
-}
-
-void rom_test(char *nesFile){
     rom::ROM rom;
-    rom.loadNesFile(nesFile);
-}
+    rom.loadNesFile(argv[1]);
+    
 
-void cpu_test(){
+    std::cout<<"ROM:"<<rom.getPRGROM().size()<<std::endl;
+    for(int i = 0; i<rom.getPRGROM()[0].size();i++){
+        std::cout<<"ROM1"<<rom.getPRGROM()[0][i]<<std::endl;
+    }
+
     cpu::CPU cpu;
     cpu.reset();
+    cpu.setPRG1(rom.getPRGROM()[0]);
+    cpu.setPRG2(rom.getPRGROM()[rom.getPRGROM().size()-1]);
     cpu.run();
+
+    return 0;
 }
 
 

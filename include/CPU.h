@@ -4,6 +4,7 @@
 #include "MOS6502.h"
 #include <map>
 #include <string>
+#include <vector>
 
 namespace cpu
 {
@@ -14,7 +15,7 @@ namespace cpu
             /**************************REGISTER**************************/
             // SPECIAL-PURPOSE REGISTER
             mos6502::i16 PC;
-            mos6502::i8  SP = 0XFF;    // 0X100 - 0X1FF , GROES DOWNWORDS.
+            mos6502::i16  SP = 0XFF;    // 0X100 - 0X1FF , GROES DOWNWORDS.
             mos6502::i8  P;               // PROCESSOR FLAG,BELOW ARE DETAILS:
                 mos6502::i8  CarryFlag              = 0x1; // (0x1<<0 & P)>>0;     // SET IF THE LAST INSTRACTION RESULTED IN AN OVER OR UNDERFLOW. 
                                                                                                 // USED FOR ARITHMETIC ON NUMBERS LARGER THAN ONE BYTE, 
@@ -45,7 +46,7 @@ namespace cpu
 
             /**************************MEMORY **************************/
             // THE NES HAS A 16 BIT ADDRESS BUS, CAN ADDRESS UP TO 16 KB OF MEMORY, FROM 0X0000 TO 0XFFFF. 
-            mos6502::i8 *memory;
+            std::vector<mos6502::i8> memory;
             // ADDRESS
             mos6502::i16 zeroPage              = 0x0;
             mos6502::i16 stack                  = 0x1FF;   // 0X100 TO 0X1FF, THE SP WILLA WRAP IF IT EXCEEDS ITS CAPACITY.
@@ -164,6 +165,9 @@ namespace cpu
         mos6502::i8 getFlag(mos6502::i8 flag);
         mos6502::i8 reset();
         mos6502::i8 getProcessorFlags();
+        
+        void setPRG1(std::vector<mos6502::i8> prg);
+        void setPRG2(std::vector<mos6502::i8> chr);
 
         OpINS getOpHandler(mos6502::i16 op);
 

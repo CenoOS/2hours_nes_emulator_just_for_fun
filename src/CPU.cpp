@@ -1,5 +1,6 @@
 #include "../include/CPU.h"
 #include <stdlib.h>
+#include <iostream>
 
 namespace cpu
 {
@@ -72,43 +73,43 @@ namespace cpu
     }
 
     mos6502::i16 CPU::BIT(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::BMI(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::BPL(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::BRK(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::BVC(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::BVS(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::CLC(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::SEC(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::CLD(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::SED(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::CLR(mos6502::i16 op){
@@ -116,95 +117,95 @@ return 0;
     }
 
     mos6502::i16 CPU::SEI(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::CLV(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::CMP(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::CPX(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::CPY(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::DEC(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::DEX(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::DEY(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::INC(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::INX(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::INY(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::JMP(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::JSR(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::RTS(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::LDA(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::LDX(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::LDY(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::NOP(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::PHA(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::PLA(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::PHP(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::PLP(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::RTI(mos6502::i16 op){
-return 0;
+        return 0;
     }
 
     mos6502::i16 CPU::STA(mos6502::i16 op){
@@ -476,11 +477,22 @@ return 0;
         return ((0x1 << flag) & this->P) >> flag;
     }
 
-    mos6502::i8 CPU::reset(){
-        this->memory = (mos6502::i8 *)malloc(0x10000 * sizeof(mos6502::i8));
-        if(!this->memory){ // MEMORY ALLOC FAILED. 
-            return -1;
+
+    void CPU::setPRG1(std::vector<mos6502::i8> prg){
+        for(int i = 0; i < prg.size(); i++){
+            this->memory[this->paks + i] = prg[i];
         }
+    }
+    void CPU::setPRG2(std::vector<mos6502::i8> chr){
+        for(int  i=0; i < chr.size(); i++){
+            this->memory[this->mirrorOf0x8000 + i] = chr[i];
+            std::cout<<(0xFF & chr[i])<<std::endl;
+        }
+    }
+
+    mos6502::i8 CPU::reset(){
+        this->memory.reserve(0x10000);
+
 
         this->P = 0b0010000;
         
@@ -569,15 +581,16 @@ return 0;
 
     mos6502::i16 CPU::execute(){
         mos6502::i16 (CPU::*opHdr)(mos6502::i16) = opINS.opHandler;
+        std::cout<<"EXEC:"<<this->PC<<":"<<this->opINS.opName<<std::endl;
         return (this->*opHdr)(this->opINS.op);
     }
 
     mos6502::i16 CPU::run(){
        this->running = 0x1;
        while(this->running == 0x1){
-            this->fetch();
             this->decode();
             this->execute();
+            this->fetch();
        }
 
     }
@@ -585,7 +598,7 @@ return 0;
 
     CPU::~CPU()
     {
-        free(this->memory);
+    
     }
     
     
