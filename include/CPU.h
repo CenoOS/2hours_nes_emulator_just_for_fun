@@ -3,6 +3,7 @@
 
 #include "MOS6502.h"
 #include <map>
+#include <string>
 
 namespace cpu
 {
@@ -85,9 +86,6 @@ namespace cpu
             AddressingMode addrMode;
 
             /**************************OP **************************/
-            typedef mos6502::i16 (CPU::*opHandler)(mos6502::i16); // pointer to CPU's member function.
-            std::map<mos6502::i16,opHandler> opHandlerTable;      // op handler map
-
             mos6502::i16 ADC(mos6502::i16 op);
             mos6502::i16 SBC(mos6502::i16 op);
             mos6502::i16 AND(mos6502::i16 op);
@@ -145,18 +143,28 @@ namespace cpu
             mos6502::i16 TSX(mos6502::i16 op);
             mos6502::i16 TXS(mos6502::i16 op);
             
-            void initOpHandlerTable();
-            void initOpCylesTable();
-            void initOpBytesTable();
+            void initOpTable();
     public:
         CPU();
+        
+        typedef mos6502::i16 (CPU::*opHandler)(mos6502::i16); // pointer to CPU's member function.
+        struct OpINS{
+            mos6502::i8 op;
+            std::string opName;
+            mos6502::i8 bytes;
+            mos6502::i8 cycles;
+            mos6502::i16 (CPU::*opHandler)(mos6502::i16);
+        };
+        typedef struct OpINS OpINS;
+        std::map<mos6502::i16,OpINS> opHandlerTable;      // op handler map
+
 
         mos6502::i8 setFlag(mos6502::i8 flag);
         mos6502::i8 getFlag(mos6502::i8 flag);
         mos6502::i8 reset();
         mos6502::i8 getProcessorFlags();
 
-        opHandler getOpHandler(mos6502::i16 op);
+        OpINS getOpHandler(mos6502::i16 op);
 
         mos6502::i8  write(mos6502::i16 addr, mos6502::i8 data);
         mos6502::i8 read(mos6502::i16 addr);

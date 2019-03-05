@@ -1,6 +1,6 @@
 CXX = g++
 LD = ld
-CFLAGS =  -std=c++11 -Wall -lstdc++
+CFLAGS = -Iinclude  -std=c++11 -Wall -lstdc++
 
 ifeq ($(OS),Windows_NT)
     CCFLAGS += -D WIN32
@@ -35,21 +35,21 @@ else
 endif
 
 
-all:	ROM.o CPU.o	TEST.o	
-	cc -o CPU_TEST TEST.o CPU.o ROM.o -lstdc++
+all:	ROM.o CPU.o TEST.o	
+	cc -o CPU_TEST obj/TEST.o obj/CPU.o obj/ROM.o -lstdc++
 
-TEST.o:	TEST.cpp
-	cc $(CCFLAGS) -o TEST.o -c TEST.cpp
+TEST.o:
+	cc $(CCFLAGS) -o obj/TEST.o -c test/TEST.cpp
 
-CPU.o:	CPU.cpp CPU.h
-	cc $(CCFLAGS) -o CPU.o -c CPU.cpp
+CPU.o:
+	cc $(CCFLAGS) -o obj/CPU.o -c src/CPU.cpp
 
-ROM.o:	ROM.cpp ROM.h
-	cc $(CCFLAGS) -o ROM.o -c ROM.cpp
+ROM.o:
+	cc $(CCFLAGS) -o obj/ROM.o -c src/ROM.cpp
 
 clean:
     ifeq ($(OS),Windows_NT)
-	    del *.o
+	    del obj/*.o
     else
-	    rm -r *.o
+	    rm -r obj
     endif

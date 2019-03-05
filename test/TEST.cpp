@@ -1,5 +1,5 @@
-#include "CPU.h"
-#include "ROM.h"
+#include "../include/CPU.h"
+#include "../include/ROM.h"
 #include <iostream>
 #include <fstream>
 #include <climits>

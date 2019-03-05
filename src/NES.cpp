@@ -1,4 +1,4 @@
-#include "NES.h"
+#include "../include/NES.h"
 
 namespace nes{
         NES::NES(){
