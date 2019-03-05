@@ -1,9 +1,13 @@
 #include "../include/ROM.h"
 #include <iostream>
 #include <fstream>
+#include <bitset>
+
+
 namespace rom{
 
     ROM::ROM(){
+        this->mapperNames.reserve(92);
         for (int i = 0; i < 92; i++) {
                 this->mapperNames[i] = "Unknown Mapper";
                   
@@ -54,8 +58,6 @@ namespace rom{
             return -1;
         }
 
-
-
         std::vector<mos6502::i8> prog;
         // int clm = 0;
         // int line = 0;
@@ -77,7 +79,6 @@ namespace rom{
                 //     std::cout<<std::endl;
                 //     line++;
                 // }
-
                 prog.push_back((0xffff)&(int)c);
             }
         }
@@ -118,11 +119,11 @@ namespace rom{
         std::cout<<" PRGROMSIZE:"<<((0xff) & this->sizeOfPRGROM);
         std::cout<<" CHRROMSIZE:"<<((0xff) & this->sizeOfCHRROM);
         std::cout<<std::endl;
-        std::cout<<"FLAG6:"<<((0xff) & this->f6);
-        std::cout<<" FLAG7:"<<((0xff) & this->f7);
-        std::cout<<" FLAG8:"<<((0xff) & this->f8);
-        std::cout<<" FLAG9:"<<((0xff) & this->f9);
-        std::cout<<" FLAG10:"<<((0xff) & this->fa);
+        std::cout<<"FLAG6:("<<((0xff) & this->f6)<<")"<<std::bitset<8>(0xFF & this->f6);
+        std::cout<<" FLAG7:("<<((0xff) & this->f7)<<")"<<std::bitset<8>(0xFF & this->f7);
+        std::cout<<" FLAG8:("<<((0xff) & this->f8)<<")"<<std::bitset<8>(0xFF & this->f8);;
+        std::cout<<" FLAG9:("<<((0xff) & this->f9)<<")"<<std::bitset<8>(0xFF & this->f9);;
+        std::cout<<" FLAG10:("<<((0xff) & this->fa)<<")"<<std::bitset<8>(0xFF & this->fa);;
         std::cout<<std::endl;
         std::cout<<"FLAG11:"<<((0xff) & this->fb);
         std::cout<<" FLAG12:"<<((0xff) & this->fc);
