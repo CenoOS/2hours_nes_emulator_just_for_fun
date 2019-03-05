@@ -56,6 +56,11 @@ namespace rom{
         this->sizeOfPRGROM = this->header[4];
         this->sizeOfCHRROM = this->header[5];
         this->f6 = this->header[6];
+            this->mirroring  = (this->f6 & 0x1);                 // & 0b00000001 >> 0
+            this->batteryRam = (this->f6 & (0x1 << 0x1)) >> 0x1; // & 0b00000010 >> 1
+            this->trainer    = (this->f6 & (0x1 << 0x2)) >> 0x2; // & 0b00000100 >> 2
+            this->fourScreen = (this->f6 & (0x1 << 0x3)) >> 0x3; // & 0b00001000 >> 3
+            this->mapperType = (this->f6 & (0xf << 0x4)) >> 0x4; // & 0b11110000 >> 4
         this->f7 = this->header[7];
         this->f8 = this->header[8];
         this->f9 = this->header[9];

@@ -172,6 +172,8 @@ namespace cpu
         mos6502::i16 fetch();
         mos6502::i16 decode();
         mos6502::i16 execute();
+        
+        mos6502::i16 run();
 
         ~CPU();
     };

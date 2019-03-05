@@ -341,28 +341,32 @@ return 0;
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x51,{(mos6502::i8)0x51,"EOR",2,5,&CPU::EOR}));
 
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x09,{(mos6502::i8)0x09,"ORA",2,2,&CPU::ORA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x05,{(mos6502::i8)0x05,"ORA",2,2,&CPU::ORA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x15,{(mos6502::i8)0x15,"ORA",2,2,&CPU::ORA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0D,{(mos6502::i8)0x0D,"ORA",2,2,&CPU::ORA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x1D,{(mos6502::i8)0x1D,"ORA",2,2,&CPU::ORA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x19,{(mos6502::i8)0x19,"ORA",2,2,&CPU::ORA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x01,{(mos6502::i8)0x01,"ORA",2,2,&CPU::ORA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x11,{(mos6502::i8)0x11,"ORA",2,2,&CPU::ORA}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x05,{(mos6502::i8)0x05,"ORA",2,3,&CPU::ORA}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x15,{(mos6502::i8)0x15,"ORA",2,4,&CPU::ORA}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0D,{(mos6502::i8)0x0D,"ORA",3,4,&CPU::ORA}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x1D,{(mos6502::i8)0x1D,"ORA",3,4,&CPU::ORA}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x19,{(mos6502::i8)0x19,"ORA",3,4,&CPU::ORA}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x01,{(mos6502::i8)0x01,"ORA",2,6,&CPU::ORA}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x11,{(mos6502::i8)0x11,"ORA",2,5,&CPU::ORA}));
+
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0A,{(mos6502::i8)0x0A,"ASL",2,2,&CPU::ASL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x06,{(mos6502::i8)0x06,"ASL",2,2,&CPU::ASL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x16,{(mos6502::i8)0x16,"ASL",2,2,&CPU::ASL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0E,{(mos6502::i8)0x0E,"ASL",2,2,&CPU::ASL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x1E,{(mos6502::i8)0x1E,"ASL",2,2,&CPU::ASL}));
+
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x4A,{(mos6502::i8)0x4A,"LSR",2,2,&CPU::LSR}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x46,{(mos6502::i8)0x46,"LSR",2,2,&CPU::LSR}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x56,{(mos6502::i8)0x56,"LSR",2,2,&CPU::LSR}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x4E,{(mos6502::i8)0x4E,"LSR",2,2,&CPU::LSR}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x5E,{(mos6502::i8)0x5E,"LSR",2,2,&CPU::LSR}));
+
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x2A,{(mos6502::i8)0x2A,"ROL",2,2,&CPU::ROL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x26,{(mos6502::i8)0x26,"ROL",2,2,&CPU::ROL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x36,{(mos6502::i8)0x36,"ROL",2,2,&CPU::ROL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x2E,{(mos6502::i8)0x2E,"ROL",2,2,&CPU::ROL}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x3E,{(mos6502::i8)0x3E,"ROL",2,2,&CPU::ROL}));
+
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x6A,{(mos6502::i8)0x6A,"ROR",2,2,&CPU::ROR}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x66,{(mos6502::i8)0x66,"ROR",2,2,&CPU::ROR}));
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x76,{(mos6502::i8)0x76,"ROR",2,2,&CPU::ROR}));
@@ -479,14 +483,48 @@ return 0;
         }
 
         this->P = 0b0010000;
+        
+        // STACK INIT
+        for(int i = 0x100; i<0x1FF){
+            
+        }
 
-        for(int i = 0; i<0x2000; i++){
+        // RAM
+        for(int i = 0x200; i<0x800; i++){
             this->memory[i] = 0xFF;
         }
         
-        for(int i = 0x2000; i<0x8000; i++){
+        // MIRROR 0X0 TO 0X7FF
+        for(int i = 0x801; i<0x2000; i++){
             this->memory[i] = 0;
         }
+
+        // PPU REG
+        for(int i = 0x2000; i<0x2007; i++){
+            this->memory[i] = 0;
+        }
+
+        // MIRROR PPU DATA
+        for(int i = 0x2008; i<0x4000; i++){
+            this->memory[i] = 0;
+        }
+
+        // MAPPED DATA
+        for(int i = 0x4000; i<0x4020; i++){
+            this->memory[i] = 0;
+        }
+
+        // ROM
+        for(int i = 0x4020; i<0x6000; i++){
+            this->memory[i] = 0;
+        }
+
+        // SRAM
+        for(int i = 0x6000; i<0x8000; i++){
+            this->memory[i] = 0;
+        }
+
+
 
         this->PC = this->resetVector;
 

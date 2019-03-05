@@ -31,6 +31,7 @@ void rom_test(char *nesFile){
 void cpu_test(){
     cpu::CPU cpu;
     cpu.reset();
+    cpu.run();
 }
 
 
