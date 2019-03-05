@@ -4,6 +4,7 @@
 
 #include "MOS6502.h"
 #include <vector>
+#include <string>
 
 namespace rom{
 
@@ -65,6 +66,9 @@ namespace rom{
 
             // PlayChoice INST-ROM, if present (0 or 8192 bytes)
             // PlayChoice PROM, if present (16 bytes Data, 16 bytes CounterOut) (this is often missing, see PC10 ROM-Images for details)
+
+
+            std::vector<std::string> mapperNames;
 
         public:
             ROM();

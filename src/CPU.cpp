@@ -485,8 +485,8 @@ return 0;
         this->P = 0b0010000;
         
         // STACK INIT
-        for(int i = 0x100; i<0x1FF){
-            
+        for(int i = 0x100; i<0x1FF; i++){
+            this->memory[i] = 0;
         }
 
         // RAM
@@ -571,6 +571,14 @@ return 0;
 
     mos6502::i16 CPU::execute(){
         return 0;
+    }
+
+    mos6502::i16 CPU::run(){
+        while(1){
+            this->fetch();
+            this->decode();
+            this->execute();
+        }
     }
 
 

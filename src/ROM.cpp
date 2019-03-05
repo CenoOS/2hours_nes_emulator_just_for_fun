@@ -4,7 +4,46 @@
 namespace rom{
 
     ROM::ROM(){
-    
+        for (int i = 0; i < 92; i++) {
+                this->mapperNames[i] = "Unknown Mapper";
+                  
+        }
+        this->mapperNames[0] = "Direct Access";
+        this->mapperNames[1] = "Nintendo MMC1";
+        this->mapperNames[2] = "UNROM";
+        this->mapperNames[3] = "CNROM";
+        this->mapperNames[4] = "Nintendo MMC3";
+        this->mapperNames[5] = "Nintendo MMC5";
+        this->mapperNames[6] = "FFE F4xxx";
+        this->mapperNames[7] = "AOROM";
+        this->mapperNames[8] = "FFE F3xxx";
+        this->mapperNames[9] = "Nintendo MMC2";
+        this->mapperNames[10] = "Nintendo MMC4";
+        this->mapperNames[11] = "Color Dreams Chip";
+        this->mapperNames[12] = "FFE F6xxx";
+        this->mapperNames[15] = "100-in-1 switch";
+        this->mapperNames[16] = "Bandai chip";
+        this->mapperNames[17] = "FFE F8xxx";
+        this->mapperNames[18] = "Jaleco SS8806 chip";
+        this->mapperNames[19] = "Namcot 106 chip";
+        this->mapperNames[20] = "Famicom Disk System";
+        this->mapperNames[21] = "Konami VRC4a";
+        this->mapperNames[22] = "Konami VRC2a";
+        this->mapperNames[23] = "Konami VRC2a";
+        this->mapperNames[24] = "Konami VRC6";
+        this->mapperNames[25] = "Konami VRC4b";
+        this->mapperNames[32] = "Irem G-101 chip";
+        this->mapperNames[33] = "Taito TC0190/TC0350";
+        this->mapperNames[34] = "32kB ROM switch";
+        this->mapperNames[64] = "Tengen RAMBO-1 chip";
+        this->mapperNames[65] = "Irem H-3001 chip";
+        this->mapperNames[66] = "GNROM switch";
+        this->mapperNames[67] = "SunSoft3 chip";
+        this->mapperNames[68] = "SunSoft4 chip";
+        this->mapperNames[69] = "SunSoft5 FME-7 chip";
+        this->mapperNames[71] = "Camerica chip";
+        this->mapperNames[78] = "Irem 74HC161/32-based";
+        this->mapperNames[91] = "Pirate HK-SF3 chip";
     }
 
     mos6502::i8 ROM::loadNesFile(char* file){
