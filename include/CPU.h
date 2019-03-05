@@ -157,7 +157,7 @@ namespace cpu
         };
         typedef struct OpINS OpINS;
         std::map<mos6502::i16,OpINS> opHandlerTable;      // op handler map
-
+        OpINS opINS;
 
         mos6502::i8 setFlag(mos6502::i8 flag);
         mos6502::i8 getFlag(mos6502::i8 flag);

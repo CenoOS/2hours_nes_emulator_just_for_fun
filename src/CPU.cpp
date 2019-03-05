@@ -563,14 +563,13 @@ return 0;
     mos6502::i16 CPU::decode(){
         mos6502::i16 op = this->memory[this->PC];
         
-        OpINS opINS = this->opHandlerTable[op];
-        
-        mos6502::i16 (CPU::*opHdr)(mos6502::i16) = opINS.opHandler;
-        return (this->*opHdr)(op);
+        this->opINS = this->opHandlerTable[op];
+        return opINS.op; 
     }
 
     mos6502::i16 CPU::execute(){
-        return 0;
+        mos6502::i16 (CPU::*opHdr)(mos6502::i16) = opINS.opHandler;
+        return (this->*opHdr)(this->opINS.op);
     }
 
     mos6502::i16 CPU::run(){
