@@ -96,11 +96,6 @@ namespace rom{
         this->sizeOfPRGROM = this->header[4];
         this->sizeOfCHRROM = this->header[5];
         this->f6 = this->header[6];
-            this->mirroring  = (this->f6 & 0x1);                 // & 0b00000001 >> 0
-            this->batteryRam = (this->f6 & (0x1 << 0x1)) >> 0x1; // & 0b00000010 >> 1
-            this->trainer    = (this->f6 & (0x1 << 0x2)) >> 0x2; // & 0b00000100 >> 2
-            this->fourScreen = (this->f6 & (0x1 << 0x3)) >> 0x3; // & 0b00001000 >> 3
-            this->mapperType = (this->f6 & (0xf << 0x4)) >> 0x4; // & 0b11110000 >> 4
         this->f7 = this->header[7];
         this->f8 = this->header[8];
         this->f9 = this->header[9];
@@ -111,7 +106,23 @@ namespace rom{
         this->fe = this->header[0xE];
         this->ff = this->header[0xF];
 
-
+            this->mirroring  = (this->f6 & 0x1);                 // & 0b00000001 >> 0
+            this->batteryRam = (this->f6 & (0x1 << 0x1)) >> 0x1; // & 0b00000010 >> 1
+            this->trainer    = (this->f6 & (0x1 << 0x2)) >> 0x2; // & 0b00000100 >> 2
+            this->fourScreen = (this->f6 & (0x1 << 0x3)) >> 0x3; // & 0b00001000 >> 3
+            this->mapperType = (this->f6 & 0xF0) >> 0x4;         // & 0b11110000 >> 4
+            this->mapperType |= (this->f7 >> 0x4);
+            /*
+            mos6502::i8 err = 0;
+            for(int i=8; i<16; i++){
+                if(this->header[i]!=0){
+                    err = 0x1;
+                }
+            }
+            if(err==0x1){
+                this->mapperType &= 0xF;
+            }
+            */
 
         std::cout<<"SIZE:"<<prog.size();
         std::cout<<std::endl;
@@ -119,17 +130,19 @@ namespace rom{
         std::cout<<" PRGROMSIZE:"<<((0xff) & this->sizeOfPRGROM);
         std::cout<<" CHRROMSIZE:"<<((0xff) & this->sizeOfCHRROM);
         std::cout<<std::endl;
-        std::cout<<"FLAG6:("<<((0xff) & this->f6)<<")"<<std::bitset<8>(0xFF & this->f6);
-        std::cout<<" FLAG7:("<<((0xff) & this->f7)<<")"<<std::bitset<8>(0xFF & this->f7);
-        std::cout<<" FLAG8:("<<((0xff) & this->f8)<<")"<<std::bitset<8>(0xFF & this->f8);;
-        std::cout<<" FLAG9:("<<((0xff) & this->f9)<<")"<<std::bitset<8>(0xFF & this->f9);;
+        std::cout<<"FLAG6:("<<((0xff)   & this->f6)<<")"<<std::bitset<8>(0xFF & this->f6);
+        std::cout<<" FLAG7:("<<((0xff)  & this->f7)<<")"<<std::bitset<8>(0xFF & this->f7);
+        std::cout<<" FLAG8:("<<((0xff)  & this->f8)<<")"<<std::bitset<8>(0xFF & this->f8);;
+        std::cout<<" FLAG9:("<<((0xff)  & this->f9)<<")"<<std::bitset<8>(0xFF & this->f9);;
         std::cout<<" FLAG10:("<<((0xff) & this->fa)<<")"<<std::bitset<8>(0xFF & this->fa);;
         std::cout<<std::endl;
-        std::cout<<"FLAG11:"<<((0xff) & this->fb);
-        std::cout<<" FLAG12:"<<((0xff) & this->fc);
-        std::cout<<" FLAG13:"<<((0xff) & this->fd);
-        std::cout<<" FLAG14:"<<((0xff) & this->fe);
-        std::cout<<" FLAG15:"<<((0xff) & this->ff);
+        std::cout<<"FLAG11:"<<((0xff)   & this->fb);
+        std::cout<<" FLAG12:"<<((0xff)  & this->fc);
+        std::cout<<" FLAG13:"<<((0xff)  & this->fd);
+        std::cout<<" FLAG14:"<<((0xff)  & this->fe);
+        std::cout<<" FLAG15:"<<((0xff)  & this->ff);
+        std::cout<<std::endl;
+        std::cout<<"MAPPER_TYPE:"<<(this->mapperNames[this->mapperType]);
         std::cout<<std::endl;
 
         mos6502::i16 PRGROM_BANK_SIZE = 16384;

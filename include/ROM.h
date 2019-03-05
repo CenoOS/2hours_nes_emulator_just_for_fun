@@ -44,9 +44,30 @@ namespace rom{
                     mos6502::i8 fourScreen;
                     mos6502::i8 mapperType;
 
+                // 76543210
+                // ||||||||
+                // |||||||+- VS Unisystem
+                // ||||||+-- PlayChoice-10 (8KB of Hint Screen data stored after CHR data)
+                // ||||++--- If equal to 2, flags 8-15 are in NES 2.0 format
+                // ++++----- Upper nybble of mapper number
                 mos6502::i8 f7;
+
+                // 76543210
+                // ||||||||
+                // ++++++++- PRG RAM size
                 mos6502::i8 f8;
+                
+                // 76543210
+                // ||||||||
+                // |||||||+- TV system (0: NTSC; 1: PAL)
+                // +++++++-- Reserved, set to zero
                 mos6502::i8 f9;
+
+                // 76543210
+                // ||  ||
+                // ||  ++- TV system (0: NTSC; 2: PAL; 1/3: dual compatible)
+                // |+----- PRG RAM ($6000-$7FFF) (0: present; 1: not present)
+                // +------ 0: Board has no bus conflicts; 1: Board has bus conflicts
                 mos6502::i8 fa;
                 mos6502::i8 fb;
                 mos6502::i8 fc;

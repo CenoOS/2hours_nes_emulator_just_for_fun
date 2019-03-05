@@ -66,6 +66,7 @@ namespace cpu
             mos6502::i16 NMI;
             mos6502::i16 Reset;
 
+            mos6502::i8 running;
             /**************************ADDRESS MODE **************************/
             typedef enum AddressingMode{
                 IMPLICIT,

@@ -573,7 +573,13 @@ return 0;
     }
 
     mos6502::i16 CPU::run(){
-        
+       this->running = 0x1;
+       while(this->running == 0x1){
+            this->fetch();
+            this->decode();
+            this->execute();
+       }
+
     }
 
 
