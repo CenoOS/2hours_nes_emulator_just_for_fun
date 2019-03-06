@@ -246,6 +246,77 @@ namespace cpu
     }
 
 
+            
+    // UNOFFICIAL OP CODE
+    mos6502::i16 CPU::KIL(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::SLO(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::RLA(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::SRE(mos6502::i16 op){
+        return 0;
+    }
+    
+    mos6502::i16 CPU::RRA(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::SAX(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::LAX(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::DCP(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::ISC(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::ANC(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::ALR(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::XAA(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::TAS(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::LAS(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::AXS(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::SHY(mos6502::i16 op){
+        return 0;
+    }
+
+    mos6502::i16 CPU::AHX(mos6502::i16 op){
+        return 0;
+    }
+             
+
    /*** 
     * ADC : ADD EITH CARRY
     * SBC : SUBTRACT WITH CARRY
@@ -474,6 +545,8 @@ namespace cpu
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xBC,{(mos6502::i8)0xBC,"LDY",3,4,&CPU::LDY}));
         
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xEA,{(mos6502::i8)0xEA,"NOP",1,2,&CPU::NOP}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x44,{(mos6502::i8)0x44,"NOP",2,3,&CPU::NOP}));
+        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x7C,{(mos6502::i8)0x7C,"NOP",3,4,&CPU::NOP}));
         
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x48,{(mos6502::i8)0x48,"PHA",1,3,&CPU::PHA}));
         

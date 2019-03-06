@@ -88,6 +88,7 @@ namespace cpu
             AddressingMode addrMode;
 
             /**************************OP **************************/
+            //  OFFICIAL OP CODE
             mos6502::i16 ADC(mos6502::i16 op);
             mos6502::i16 SBC(mos6502::i16 op);
             mos6502::i16 AND(mos6502::i16 op);
@@ -144,6 +145,26 @@ namespace cpu
             mos6502::i16 TAY(mos6502::i16 op);
             mos6502::i16 TSX(mos6502::i16 op);
             mos6502::i16 TXS(mos6502::i16 op);
+            
+            // UNOFFICIAL OP CODE
+            mos6502::i16 KIL(mos6502::i16 op);
+            mos6502::i16 SLO(mos6502::i16 op);
+            mos6502::i16 RLA(mos6502::i16 op);
+            mos6502::i16 SRE(mos6502::i16 op);
+            mos6502::i16 RRA(mos6502::i16 op);
+            mos6502::i16 SAX(mos6502::i16 op);
+            mos6502::i16 LAX(mos6502::i16 op);
+            mos6502::i16 DCP(mos6502::i16 op);
+            mos6502::i16 ISC(mos6502::i16 op);
+            mos6502::i16 ANC(mos6502::i16 op);
+            mos6502::i16 ALR(mos6502::i16 op);
+            mos6502::i16 XAA(mos6502::i16 op);
+            mos6502::i16 TAS(mos6502::i16 op);
+            mos6502::i16 LAS(mos6502::i16 op);
+            mos6502::i16 AXS(mos6502::i16 op);
+            mos6502::i16 SHY(mos6502::i16 op);
+            mos6502::i16 AHX(mos6502::i16 op);
+                
             
             void initOpTable();
     public:
