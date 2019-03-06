@@ -46,7 +46,7 @@ namespace cpu
 
             /**************************MEMORY **************************/
             // THE NES HAS A 16 BIT ADDRESS BUS, CAN ADDRESS UP TO 16 KB OF MEMORY, FROM 0X0000 TO 0XFFFF. 
-            std::vector<mos6502::i8> memory;
+            mos6502::i8 *memory;
             // ADDRESS
             mos6502::i16 zeroPage              = 0x0;
             mos6502::i16 stack                  = 0x1FF;   // 0X100 TO 0X1FF, THE SP WILLA WRAP IF IT EXCEEDS ITS CAPACITY.

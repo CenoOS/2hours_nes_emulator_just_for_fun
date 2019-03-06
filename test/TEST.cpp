@@ -29,17 +29,12 @@ int main(int argc, char *argv[]){
 
     // 35 D7 D0 D6 44 D7
     
-    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-5])<<std::endl;
-
     std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-4])<<std::endl;
 
     std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-3])<<std::endl;
 
-    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-2])<<std::endl;
 
-    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-1])<<std::endl;
 
-    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-0])<<std::endl;
 
     
     cpu.run();
