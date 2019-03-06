@@ -50,42 +50,63 @@ namespace rom{
         this->mapperNames[91] = "Pirate HK-SF3 chip";
     }
 
-    mos6502::i8 ROM::loadNesFile(char* file){
-        std::fstream nesFile;
-        nesFile.open(file,std::ios::binary | std::ios::in);
-        if(!nesFile){
-            std::cout<<"file '"<<file<<"' open filed"<<std::endl;
-            return -1;
-        }
+    std::vector<mos6502::i8> readFile(const char* filename)
+    {
+        // open the file:
+        std::streampos fileSize;
+        std::ifstream file(filename, std::ios::binary);
+     
+        // get its size:
+        file.seekg(0, std::ios::end);
+        fileSize = file.tellg();
+        file.seekg(0, std::ios::beg);
+     
+        // read the data:
+        std::vector<mos6502::i8> fileData(fileSize);
+        file.read((char*) &fileData[0], fileSize);
+        return fileData;
+     
+    }
 
-        std::vector<mos6502::i8> prog;
-        // int clm = 0;
-        // int line = 0;
-        while(nesFile){
-            char c;
-            nesFile.get(c);
-            if(nesFile){
-                // if(clm==0){
-                //     std::cout<<line<<": ";
-                // }
-                // if(((0x000000ff)&int(c))<0x10){
-                //     std::cout<<"0X0"<<std::hex<<((0x000000ff)&int(c))<<" ";
-                // }else{
-                //     std::cout<<"0X"<<std::hex<<((0x000000ff)&int(c))<<" ";
-                // }
-                // clm++;
-                // if(clm==0x10){
-                //     clm = 0;
-                //     std::cout<<std::endl;
-                //     line++;
-                // }
-                prog.push_back((0xffff)&(int)c);
-            }
-        }
+    mos6502::i8 ROM::loadNesFile(char* file){
+        // std::fstream nesFile;
+        // nesFile.open(file,std::ios::binary | std::ios::in);
+        // if(!nesFile){
+        //    std::cout<<"file '"<<file<<"' open filed"<<std::endl;
+        //    return -1;
+        // }
+
+        std::vector<mos6502::i8> prog = readFile(file);
+        
+       // int clm = 0;
+       // int line = 0;
+       // while(nesFile){
+       //     char c;
+       //     nesFile.get(c);
+       //     if(nesFile){
+       //         if(line<1){
+       //          if(clm==0){
+       //              std::cout<<line<<": ";
+       //          }
+       //          if(((0x000000ff)&int(c))<0x10){
+       //              std::cout<<"0X0"<<std::hex<<((0x000000ff)&int(c))<<" ";
+       //          }else{
+       //              std::cout<<"0X"<<std::hex<<((0x000000ff)&int(c))<<" ";
+       //          }
+       //          clm++;
+       //          if(clm==0x10){
+       //              clm = 0;
+       //              std::cout<<std::endl;
+       //              line++;
+       //          }
+       //         }
+       //         prog.push_back((0xffff)&(int)c);
+       //     }
+       // }
 
 
         for(int i = 0; i <16; i++){
-            this->header[i] = prog.at(i);
+            this->header[i] = prog[i];
         }
 
         this->constant[0] = this->header[0];
@@ -147,8 +168,8 @@ namespace rom{
 
         mos6502::i16 PRGROM_BANK_SIZE = 16384;
         for(int i = 0; i < this->sizeOfPRGROM; i++){
-            std::vector<mos6502::i8> PRGROM_BANK;
-            PRGROM_BANK.reserve(PRGROM_BANK_SIZE);
+            std::vector<mos6502::i8> PRGROM_BANK(PRGROM_BANK_SIZE,0xFF);
+            // PRGROM_BANK.reserve(PRGROM_BANK_SIZE);
             for(int j = 0; j <PRGROM_BANK_SIZE; j++){
                 PRGROM_BANK[j] = prog[16 + i*PRGROM_BANK_SIZE];
             }
@@ -158,8 +179,8 @@ namespace rom{
 
         mos6502::i16 CHRROM_BANK_SIZE = 8192;
         for(int i = 0; i < this->sizeOfCHRROM; i++){
-            std::vector<mos6502::i8> CHRROM_BANK;
-            CHRROM_BANK.reserve(CHRROM_BANK_SIZE);
+            std::vector<mos6502::i8> CHRROM_BANK(CHRROM_BANK_SIZE,0xFF);
+            // CHRROM_BANK.reserve(CHRROM_BANK_SIZE);
             for(int j = 0; j <CHRROM_BANK_SIZE; j++){
                 CHRROM_BANK[j] = prog[16 + this->sizeOfPRGROM*PRGROM_BANK_SIZE + i*CHRROM_BANK_SIZE];
             }

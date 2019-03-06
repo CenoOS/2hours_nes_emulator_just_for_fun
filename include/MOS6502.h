@@ -5,8 +5,8 @@
 
        namespace mos6502
        {
-           typedef int16_t i16;
-           typedef int8_t i8;
+           typedef uint16_t i16;
+           typedef uint8_t i8;
        } // mos6502
 
 #endif //!__MOS6502_H__

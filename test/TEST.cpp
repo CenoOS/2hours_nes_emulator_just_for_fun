@@ -21,15 +21,27 @@ int main(int argc, char *argv[]){
     rom.loadNesFile(argv[1]);
     
 
-    std::cout<<"ROM:"<<rom.getPRGROM().size()<<std::endl;
-    for(int i = 0; i<rom.getPRGROM()[0].size();i++){
-        std::cout<<"ROM1"<<rom.getPRGROM()[0][i]<<std::endl;
-    }
-
     cpu::CPU cpu;
     cpu.reset();
-    cpu.setPRG1(rom.getPRGROM()[0]);
-    cpu.setPRG2(rom.getPRGROM()[rom.getPRGROM().size()-1]);
+    
+    cpu.setPRG1(rom.getPRGROM()[0]);                            // 0x8000 
+    cpu.setPRG2(rom.getPRGROM()[rom.getPRGROM().size()-1]);     // 0xC000
+
+    // 35 D7 D0 D6 44 D7
+    
+    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-5])<<std::endl;
+
+    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-4])<<std::endl;
+
+    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-3])<<std::endl;
+
+    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-2])<<std::endl;
+
+    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-1])<<std::endl;
+
+    std::cout<<"RESET:"<<(0xFF & rom.getPRGROM()[rom.getPRGROM().size()-1][rom.getPRGROM()[rom.getPRGROM().size()-1].size()-0])<<std::endl;
+
+    
     cpu.run();
 
     return 0;

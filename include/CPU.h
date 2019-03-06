@@ -15,7 +15,7 @@ namespace cpu
             /**************************REGISTER**************************/
             // SPECIAL-PURPOSE REGISTER
             mos6502::i16 PC;
-            mos6502::i16  SP = 0XFF;    // 0X100 - 0X1FF , GROES DOWNWORDS.
+            mos6502::i16 SP = 0XFF;    // 0X100 - 0X1FF , GROES DOWNWORDS.
             mos6502::i8  P;               // PROCESSOR FLAG,BELOW ARE DETAILS:
                 mos6502::i8  CarryFlag              = 0x1; // (0x1<<0 & P)>>0;     // SET IF THE LAST INSTRACTION RESULTED IN AN OVER OR UNDERFLOW. 
                                                                                                 // USED FOR ARITHMETIC ON NUMBERS LARGER THAN ONE BYTE, 
@@ -60,7 +60,7 @@ namespace cpu
             mos6502::i16 paks                    = 0x8000; // 0X8000, IF THE PROGRAM ONLY CONTAINS ONE BANK, IT WILL BE MIRRORED AT 0XC000.
             mos6502::i16 mirrorOf0x8000       = 0xC000; // 0XC000, MIRROR OF PAKS
 
-            mos6502::i16 resetVector           = 0xfffc;
+            mos6502::i16 resetVector           = 0xFFFC;
 
             /**************************INTERRUPT**************************/
             mos6502::i16 IRQ;

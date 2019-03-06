@@ -486,7 +486,6 @@ namespace cpu
     void CPU::setPRG2(std::vector<mos6502::i8> chr){
         for(int  i=0; i < chr.size(); i++){
             this->memory[this->mirrorOf0x8000 + i] = chr[i];
-            std::cout<<(0xFF & chr[i])<<std::endl;
         }
     }
 
@@ -537,8 +536,7 @@ namespace cpu
         }
 
 
-
-        this->PC = this->resetVector;
+        this->PC = 0xFFFF;
 
         this->A = 0;
         this->X = 0;
@@ -586,12 +584,19 @@ namespace cpu
     }
 
     mos6502::i16 CPU::run(){
-       this->running = 0x1;
-       while(this->running == 0x1){
+        mos6502::i8 high = this->memory[this->resetVector];
+        mos6502::i8 low  = this->memory[this->resetVector + 1];
+        mos6502::i16 pc = 0xFFFF;
+        this->PC = ((pc & high) << 8) | low;
+        std::cout<<"PC:"<<this->PC<<" HIGH:"<<(0xFF & high)<<" LOW:"<<(0xFF & low)<<std::endl;
+
+
+        this->running = 0x1;
+        while(this->running == 0x1){
             this->decode();
             this->execute();
             this->fetch();
-       }
+        }
 
     }
 
