@@ -17,19 +17,19 @@ namespace cpu
             mos6502::i16 PC;
             mos6502::i16 SP = 0XFF;    // 0X100 - 0X1FF , GROES DOWNWORDS.
             mos6502::i8  P;               // PROCESSOR FLAG,BELOW ARE DETAILS:
-                mos6502::i8  CarryFlag              = 0x1; // (0x1<<0 & P)>>0;     // SET IF THE LAST INSTRACTION RESULTED IN AN OVER OR UNDERFLOW. 
+                mos6502::i8  CarryFlag              = 0x0; // (0x1<<0 & P)>>0;     // SET IF THE LAST INSTRACTION RESULTED IN AN OVER OR UNDERFLOW. 
                                                                                                 // USED FOR ARITHMETIC ON NUMBERS LARGER THAN ONE BYTE, 
                                                                                                 // WHERE THE NEXT INSTRACTION IS CRRAY-FLAG AWARE.
-                mos6502::i8  ZeroFlag               = 0x2; // (0x1<<1 & P)>>1;     // SET IF THE LAST INATRACTION RESULTED IN A VALUE OF 0.
-                mos6502::i8  InterruptDisable    = 0x3; // (0x1<<2 & P)>>2;     // SET TO DISABLE RESPOMDING TO MASKABLE INTERRUPT.
-                mos6502::i8  DecimalMode           = 0x4; // (0x1<<3 & P)>>3;     // SET TO ENABLE BCD MODE, THIS DOESEN'T AFFECT THE 2A03,
+                mos6502::i8  ZeroFlag               = 0x1; // (0x1<<1 & P)>>1;     // SET IF THE LAST INATRACTION RESULTED IN A VALUE OF 0.
+                mos6502::i8  InterruptDisable    = 0x2; // (0x1<<2 & P)>>2;     // SET TO DISABLE RESPOMDING TO MASKABLE INTERRUPT.
+                mos6502::i8  DecimalMode           = 0x3; // (0x1<<3 & P)>>3;     // SET TO ENABLE BCD MODE, THIS DOESEN'T AFFECT THE 2A03,
                                                                                                 // SO FLIPPING THIS VALUE DOESEN'T DO ANYTHING.
-                mos6502::i8  BreakCommand          = 0x5; // (0x1<<4 & P)>>4;     // SET TO INDICATE A 'BRK' INSTRACTION WAS EXECUTED.
-                mos6502::i8  UnusedBit              = 0x6; // (0x1<<5 & P)>>5;     // UNUSEDBIT.
-                mos6502::i8  OverflowFlag          = 0x7; // (0x1<<6 & P)>>6;     // SET WHEN AN INVALID TWO'S COMPLEMENT NUMBER IS THE RESULT OF AN OPERATION. 
+                mos6502::i8  BreakCommand          = 0x4; // (0x1<<4 & P)>>4;     // SET TO INDICATE A 'BRK' INSTRACTION WAS EXECUTED.
+                mos6502::i8  UnusedBit              = 0x5; // (0x1<<5 & P)>>5;     // UNUSEDBIT.
+                mos6502::i8  OverflowFlag          = 0x6; // (0x1<<6 & P)>>6;     // SET WHEN AN INVALID TWO'S COMPLEMENT NUMBER IS THE RESULT OF AN OPERATION. 
                                                                                                 // AN EXAMPLE IS ADDING 2 POSTIVE NUMBER WHICK RESULT IN THE SIGN BIT BEGIN SET, 
                                                                                                 // MAKING THE RESULT A NEGATIVE
-                mos6502::i8  NegativeFlag          = 0x0; // (0x1<<7 & P)>>7;
+                mos6502::i8  NegativeFlag          = 0x7; // (0x1<<7 & P)>>7;
 
                 mos6502::i8  isCarryFlag              = 0;
                 mos6502::i8  isZeroFlag               = 0;

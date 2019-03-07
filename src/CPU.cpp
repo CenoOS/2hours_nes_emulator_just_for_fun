@@ -18,15 +18,14 @@ namespace cpu
      * ADD MEMORY TO ACCUMULATOR WITH CARRY
      */
     mos6502::i16 CPU::ADC(mos6502::i16 op){
-
-
-        
-
         return 0;
     }
 
     mos6502::i16 CPU::SBC(mos6502::i16 op){
+        
+
         return 0;
+
     }
 
     mos6502::i16 CPU::AND(mos6502::i16 op){
@@ -102,7 +101,11 @@ namespace cpu
     }
 
     mos6502::i16 CPU::SEC(mos6502::i16 op){
-        return 0;
+        // SET CARRY FLAG
+        this->P |= (0x1 << this->CarryFlag);
+        this->isCarryFlag = 0x1;
+        
+        return this->isCarryFlag;
     }
 
     mos6502::i16 CPU::CLD(mos6502::i16 op){
@@ -585,55 +588,55 @@ namespace cpu
         this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x9A,{(mos6502::i8)0x9A,"TXS",1,2,&CPU::TXS}));
         
         //  UNOFFICIAL OP CODE
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x7C,{(mos6502::i8)0x7C,"NOP",3,4,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x44,{(mos6502::i8)0x44,"NOP",2,3,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xDC,{(mos6502::i8)0xDC,"NOP",3,4,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x82,{(mos6502::i8)0x82,"NOP",2,2,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x80,{(mos6502::i8)0x80,"NOP",2,2,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xC2,{(mos6502::i8)0xC2,"NOP",2,2,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x5A,{(mos6502::i8)0x5A,"NOP",1,2,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xFA,{(mos6502::i8)0xFA,"NOP",1,2,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x34,{(mos6502::i8)0x34,"NOP",2,4,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x04,{(mos6502::i8)0x04,"NOP",2,3,&CPU::NOP}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0C,{(mos6502::i8)0x0C,"NOP",2,4,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x7C,{(mos6502::i8)0x7C,"NOP",3,4,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x44,{(mos6502::i8)0x44,"NOP",2,3,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xDC,{(mos6502::i8)0xDC,"NOP",3,4,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x82,{(mos6502::i8)0x82,"NOP",2,2,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x80,{(mos6502::i8)0x80,"NOP",2,2,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xC2,{(mos6502::i8)0xC2,"NOP",2,2,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x5A,{(mos6502::i8)0x5A,"NOP",1,2,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xFA,{(mos6502::i8)0xFA,"NOP",1,2,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x34,{(mos6502::i8)0x34,"NOP",2,4,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x04,{(mos6502::i8)0x04,"NOP",2,3,&CPU::NOP}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0C,{(mos6502::i8)0x0C,"NOP",2,4,&CPU::NOP}));
 
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x92,{(mos6502::i8)0x92,"KIL",1,0,&CPU::KIL}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x02,{(mos6502::i8)0x02,"KIL",1,0,&CPU::KIL}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x42,{(mos6502::i8)0x42,"KIL",1,0,&CPU::KIL}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x22,{(mos6502::i8)0x22,"KIL",1,0,&CPU::KIL}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x92,{(mos6502::i8)0x92,"KIL",1,0,&CPU::KIL}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x02,{(mos6502::i8)0x02,"KIL",1,0,&CPU::KIL}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x42,{(mos6502::i8)0x42,"KIL",1,0,&CPU::KIL}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x22,{(mos6502::i8)0x22,"KIL",1,0,&CPU::KIL}));
         
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x83,{(mos6502::i8)0x83,"SAX",2,6,&CPU::SAX}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x83,{(mos6502::i8)0x83,"SAX",2,6,&CPU::SAX}));
         
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xCF,{(mos6502::i8)0xCF,"DCP",3,6,&CPU::DCP}));
-        
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x07,{(mos6502::i8)0x07,"SLO",2,5,&CPU::SLO}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x03,{(mos6502::i8)0x03,"SLO",2,8,&CPU::SLO}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x1B,{(mos6502::i8)0x1B,"SLO",3,7,&CPU::SLO}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0F,{(mos6502::i8)0x0F,"SLO",2,6,&CPU::SLO}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x1F,{(mos6502::i8)0x1F,"SLO",3,7,&CPU::SLO}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x17,{(mos6502::i8)0x17,"SLO",2,6,&CPU::SLO}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xCF,{(mos6502::i8)0xCF,"DCP",3,6,&CPU::DCP}));
+         
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x07,{(mos6502::i8)0x07,"SLO",2,5,&CPU::SLO}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x03,{(mos6502::i8)0x03,"SLO",2,8,&CPU::SLO}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x1B,{(mos6502::i8)0x1B,"SLO",3,7,&CPU::SLO}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0F,{(mos6502::i8)0x0F,"SLO",2,6,&CPU::SLO}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x1F,{(mos6502::i8)0x1F,"SLO",3,7,&CPU::SLO}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x17,{(mos6502::i8)0x17,"SLO",2,6,&CPU::SLO}));
 
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x9B,{(mos6502::i8)0x9B,"TAS",3,5,&CPU::TAS}));
-        
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x9B,{(mos6502::i8)0x9B,"TAS",3,5,&CPU::TAS}));
+         
 
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xFF,{(mos6502::i8)0xFF,"ISC",3,7,&CPU::ISC}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xFB,{(mos6502::i8)0xFB,"ISC",3,7,&CPU::ISC}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xF7,{(mos6502::i8)0xF7,"ISC",2,6,&CPU::ISC}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xFF,{(mos6502::i8)0xFF,"ISC",3,7,&CPU::ISC}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xFB,{(mos6502::i8)0xFB,"ISC",3,7,&CPU::ISC}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xF7,{(mos6502::i8)0xF7,"ISC",2,6,&CPU::ISC}));
 
     
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x8B,{(mos6502::i8)0x8B,"XAA",2,2,&CPU::XAA}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x8B,{(mos6502::i8)0x8B,"XAA",2,2,&CPU::XAA}));
     
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xBF,{(mos6502::i8)0xBF,"LAX",3,4,&CPU::LAX}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0xBF,{(mos6502::i8)0xBF,"LAX",3,4,&CPU::LAX}));
 
 
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x87,{(mos6502::i8)0x87,"SAX",2,3,&CPU::SAX}));
-        
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x27,{(mos6502::i8)0x27,"RLA",2,5,&CPU::RLA}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x23,{(mos6502::i8)0x23,"RLA",2,8,&CPU::RLA}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x87,{(mos6502::i8)0x87,"SAX",2,3,&CPU::SAX}));
+         
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x27,{(mos6502::i8)0x27,"RLA",2,5,&CPU::RLA}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x23,{(mos6502::i8)0x23,"RLA",2,8,&CPU::RLA}));
 
 
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0B,{(mos6502::i8)0x0B,"ANC",2,2,&CPU::ANC}));
-        this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x2B,{(mos6502::i8)0x2B,"ANC",2,2,&CPU::ANC}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x0B,{(mos6502::i8)0x0B,"ANC",2,2,&CPU::ANC}));
+        // this->opHandlerTable.insert(std::pair<mos6502::i16,OpINS>(0x2B,{(mos6502::i8)0x2B,"ANC",2,2,&CPU::ANC}));
     }
     
     mos6502::i8 CPU::setFlag(mos6502::i8 flag){
@@ -759,7 +762,10 @@ namespace cpu
             std::cout<<":MEM(0x"<<(0xFF & this->memory[this->PC]);
             std::cout<<") OP(0x"<<std::hex<<(0xFF & this->opINS.op);
         }
-        std::cout<<")"<<this->opINS.opName;
+        std::cout<<") "<<this->opINS.opName;
+        if(this->opINS.bytes>=2){
+            std::cout<<" 0x"<<std::hex<<(0xFF & this->memory[this->PC+1]);
+        }
         std::cout<<" bytes:"<<std::hex<<(0xFF & this->opINS.bytes)<<std::endl;
         
         return (this->*opHdr)(this->opINS.op);
@@ -769,8 +775,9 @@ namespace cpu
         mos6502::i8 high = this->memory[this->resetVector];
         mos6502::i8 low  = this->memory[this->resetVector + 1];
         mos6502::i16 pc = 0xFFFF;
-        // this->PC = ((pc & high) << 8) | low;
-        this->PC = this->paks;
+        
+        this->PC = ((pc & high) << 8) | low;
+        // this->PC = this->paks;
         
         std::cout<<"PC:0x"<<std::hex<<this->PC;
         std::cout<<" HIGH:0x"<<std::hex<<(0xFF & high);
