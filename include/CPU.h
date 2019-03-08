@@ -112,7 +112,7 @@ namespace cpu
             mos6502::i16 SEC(mos6502::i16 op);
             mos6502::i16 CLD(mos6502::i16 op);
             mos6502::i16 SED(mos6502::i16 op);
-            mos6502::i16 CLR(mos6502::i16 op);
+            mos6502::i16 CLI(mos6502::i16 op);
             mos6502::i16 SEI(mos6502::i16 op);
             mos6502::i16 CLV(mos6502::i16 op);
             mos6502::i16 CMP(mos6502::i16 op);
