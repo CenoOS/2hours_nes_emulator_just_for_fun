@@ -173,10 +173,12 @@ namespace cpu
         typedef mos6502::i16 (CPU::*opHandler)(mos6502::i16); // pointer to CPU's member function.
         struct OpINS{
             mos6502::i8 op;
+            AddressingMode addrMode;
             std::string opName;
             mos6502::i8 bytes;
             mos6502::i8 cycles;
             mos6502::i16 (CPU::*opHandler)(mos6502::i16);
+            mos6502::i8 *value;
         };
         typedef struct OpINS OpINS;
         std::map<mos6502::i16,OpINS> opHandlerTable;      // op handler map
