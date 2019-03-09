@@ -18,24 +18,7 @@ namespace cpu
      * ADD MEMORY TO ACCUMULATOR WITH CARRY
      */
     mos6502::i16 CPU::ADC(mos6502::i16 op){
-        switch(this->opINS){
-            case IMMEDIATE:
-                break;
-            case ZEROPAGE:
-                break;
-            case ZEROPAGEX:
-                break;
-            case ABSOLUTE:
-                break;
-            case ABSOLUTEX:
-                break;
-            case ABSOLUTEY:
-                break;
-            case INDEXED_INDIRECT:
-                break;
-            case INDIRECT_INDEXED:
-                break;
-        }
+      
         return 0;
     }
 
@@ -742,6 +725,90 @@ namespace cpu
     mos6502::i8 CPU::getProcessorFlags(){
         return this->P;
     }
+
+    mos6502::i16 CPU::readWithAddrMode(mos6502::i16 addr){
+            
+        /**
+         * d,x   Zero page indexed val = PEEK((arg + X) % 256) 4                        
+         * d,y   Zero page indexed val = PEEK((arg + Y) % 256) 4
+         * a,x   Absolute indexed  val = PEEK(arg + X) 4+
+         * a,y   Absolute indexed  val = PEEK(arg + Y) 4+
+         * (d,x) Indexed indirect  val = PEEK(PEEK((arg + X) % 256) + PEEK((arg + X + 1) % 256) * 256) 6
+         * (d),y Indirect indexed  val = PEEK(PEEK(arg) + PEEK((arg + 1) % 256) * 256 + Y) 5+
+         *
+         *       Implicit    Instructions like RTS or CLC have no address opera  nd, the destination of results are implied.
+         * A     Accumulator Many instructions can operate on the accumulator, e.g. LSR A. Some assemblers will treat no operand as an implicit A where applicable.
+         * #v    Immediate Uses the 8-bit operand itself as the value for the operation, rather than fetching a value from a memory address.
+         * d     Zeropage  Fetches the value from an 8-bit address on the zero page.
+         * af    Absolute  Fetches the value from a 16-bit a ddress anywhere in memory.
+         * label Relative  Branch instructions (e.g. BEQ,BCS) have a relative addressing mode that specifies an 8-bit signed offset relative to the current PC.
+         * (a)   IndirectThe JMP instruction has a special indirect addressing mode that can jump to the address stored in a 16-bit pointer anywhere in memory.
+         **/
+        switch(this->opINS){
+            case ZEROPAGEX:
+                break;
+            case ZEROPAGEY:
+                break;
+            case ABSOLUTEX:
+                break;
+            case ABSOLUTEY:
+                break;
+            case INDEXED_INDIRECT:
+                break;
+            case INDIRECT_INDEXED:
+                break;
+            case IMPLICIT:
+                break;
+            case ACCEUMULATOR:
+                break;
+            case IMMEDIATE:
+                break;
+            case ZEROPAGE:
+                break;
+            case ABSOLUTE:
+                break;
+            case RELATIVE:
+                break;
+            case INDIRECT:
+                break;
+                
+        }   
+        return 0;
+    }
+    
+    mos6502::i16 CPU::readWithAddrMode(mos6502::i16 addr,mod6502::i8 value){
+       switch(this->opINS){
+            case ZEROPAGEX:
+                break;
+            case ZEROPAGEY:
+                break;
+            case ABSOLUTEX:
+                break;
+            case ABSOLUTEY:
+                break;
+            case INDEXED_INDIRECT:
+                break;
+            case INDIRECT_INDEXED:
+                break;
+            case IMPLICIT:
+                break;
+            case ACCEUMULATOR:
+                break;
+            case IMMEDIATE:
+                break;
+            case ZEROPAGE:
+                break;
+            case ABSOLUTE:
+                break;
+            case RELATIVE:
+                break;
+            case INDIRECT:
+                break;
+                
+        }       return 0;
+    }
+
+
 
     mos6502::i8  CPU::write(mos6502::i16 addr, mos6502::i8 data){
         this->memory[addr] = data;

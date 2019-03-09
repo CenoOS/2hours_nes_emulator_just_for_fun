@@ -188,7 +188,10 @@ namespace cpu
         mos6502::i8 getFlag(mos6502::i8 flag);
         mos6502::i8 reset();
         mos6502::i8 getProcessorFlags();
-        
+       
+        mos6502::i16 readWithAddrMode(mos6502::i16 addr);
+        mos6502::i16 readWithAddrMode(mos6502::i16 addr,mod6502::i8 value);
+
         void setPRG1(std::vector<mos6502::i8> prg);
         void setPRG2(std::vector<mos6502::i8> chr);
 
