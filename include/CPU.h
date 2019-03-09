@@ -190,7 +190,7 @@ namespace cpu
         mos6502::i8 getProcessorFlags();
        
         mos6502::i16 readWithAddrMode(mos6502::i16 addr);
-        mos6502::i16 readWithAddrMode(mos6502::i16 addr,mod6502::i8 value);
+        mos6502::i16 writeWithAddrMode(mos6502::i16 addr,mos6502::i8 value);
 
         void setPRG1(std::vector<mos6502::i8> prg);
         void setPRG2(std::vector<mos6502::i8> chr);

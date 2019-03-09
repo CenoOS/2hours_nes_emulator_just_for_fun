@@ -744,61 +744,55 @@ namespace cpu
          * label Relative  Branch instructions (e.g. BEQ,BCS) have a relative addressing mode that specifies an 8-bit signed offset relative to the current PC.
          * (a)   IndirectThe JMP instruction has a special indirect addressing mode that can jump to the address stored in a 16-bit pointer anywhere in memory.
          **/
-        switch(this->opINS){
-            case ZEROPAGEX:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16
+
+        mos6502::i16 opVal = 0;
+        if(this->opINS.bytes==2){
+            opVal = *this->opINS.value;
+        }else if(this->opINS.bytes==3){
+            opVal = *this->opINS.value; // LOW
+            this->opINS.value++;
+            opVal = (opVal << 4) | *this->opINS.value;
+
+        }
+        switch(this->opINS.addrMode){
+            case ZEROPAGEX:{
                 mos6502::i16 val = this->read((opVal+this->X) & 0xFF);
                 return val;
 
                 break;
-            case ZEROPAGEY:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16            
+                           }
+            case ZEROPAGEY:{
                 mos6502::i16 val = this->read((opVal+this->Y) & 0xFF);
                 return val;
 
                 break;
-            case ABSOLUTEX:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16            
+                           }
+            case ABSOLUTEX:{
                 mos6502::i16 val = this->read(opVal+this->X);
                 return val;
 
-
                 break;
-            case ABSOLUTEY:
-
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16            
+                           }
+            case ABSOLUTEY:{
                 mos6502::i16 val = this->read(opVal+this->Y);
                 return val;
 
                 break;
-            case INDEXED_INDIRECT:
-
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
-                mos6502::i16 val = this.read(this->read((opVal+this->X) & 0xFF) + this->read((opVal+this->X+1) & 0xFF) * 0xFF));
+                           }
+            case INDEXED_INDIRECT:{
+                mos6502::i16 val = this->read(this->read((opVal + X) & 0xFF) + this->read((opVal + X + 1) & 0xFF) * 0xFF); 
                 
                 return val;
 
                 break;
-            case INDIRECT_INDEXED:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //                
-
+                                  }
+            case INDIRECT_INDEXED:{
                 mos6502::i16 val = this->read(this->read(opVal) + this->read((opVal + 1) & 0xFF) * 0xFF + this->Y);
  
                 return val;
 
                 break;
+                                  }
             case IMPLICIT:
                 // NO OPVAL
                 break;
@@ -808,40 +802,23 @@ namespace cpu
 
                 break;
             case IMMEDIATE:
-
-                // need to convert to mos6502::i16;
-                return this->opINS.value;
+                return opVal;
 
                 break;
             case ZEROPAGE:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
                 return this->read(opVal & 0xFF);
 
                 break;
             case ABSOLUTE:
 
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
-                return this->raed(opVal);
+                return this->read(opVal);
 
                 break;
             case RELATIVE:
-
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
                 return this->read(this->PC+opVal);
                 
                 break;
             case INDIRECT:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
                 return this->read(opVal);
 
                 break;
@@ -850,73 +827,65 @@ namespace cpu
         return 0;
     }
     
-    mos6502::i16 CPU::readWithAddrMode(mos6502::i16 addr,mod6502::i8 value){
-       switch(this->opINS){
+    mos6502::i16 CPU::writeWithAddrMode(mos6502::i16 addr,mos6502::i8 value){
+        
+        mos6502::i16 opVal = 0;
+        mos6502::i16 newAddr = addr;
+
+        if(this->opINS.bytes==2){
+            opVal = *this->opINS.value;
+        }else if(this->opINS.bytes==3){
+            opVal = *this->opINS.value; // LOW
+            this->opINS.value++;
+            opVal = (opVal << 4) | *this->opINS.value;
+
+        }
+        switch(this->opINS.addrMode){
             case ZEROPAGEX:
+                newAddr = this->read((opVal+this->X) & 0xFF);
                 
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16
-                mos6502::i16 addr = this->read((opVal+this->X) & 0xFF);
+                this->write(newAddr,value);
                 
-                this->write(addr,value);
-                
-                return addr;
+                return newAddr;
 
                 break;
             case ZEROPAGEY:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16            
-                mos6502::i16 addr = this->read((opVal+this->Y) & 0xFF);
+                newAddr = this->read((opVal+this->Y) & 0xFF);
                  
-                this->write(addr,value);
-                return addr;
+                this->write(newAddr,value);
+                return newAddr;
 
                 break;
             case ABSOLUTEX:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16            
-                mos6502::i16 addr = this->read(opVal+this->X);
+                newAddr = this->read(opVal+this->X);
                  
-                this->write(addr,value);
-                return addr;
+                this->write(newAddr,value);
+                return newAddr;
 
 
                 break;
             case ABSOLUTEY:
-
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos6502::i8 or mos6502::i16            
-                mos6502::i16 addr = this->read(opVal+this->Y);
+                newAddr = this->read(opVal+this->Y);
                  
-                this->write(addr,value);
-                return addr;
+                this->write(newAddr,value);
+                return newAddr;
 
                 break;
             case INDEXED_INDIRECT:
-
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
-                mos6502::i16 addr = this.read(this->read(opVal+this->X) & 0xFF) + this->read((opVal+this->X+1) & 0xFF) * 256));
-                 
-                this->write(addr,value);
+                newAddr = this->read(this->read((opVal + X) & 0xFF) + this->read((opVal + X + 1) & 0xFF) * 0xFF); 
                 
-                return addr;
+                this->write(newAddr,value);
+                
+                return newAddr;
 
                 break;
             case INDIRECT_INDEXED:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //                
 
-                mos6502::i16 addr = this->read(this->read(opVal) + this->read((opVal + 1) & 0xFF) * 256 + this->Y);
+                newAddr = this->read(this->read(opVal) + this->read((opVal + 1) & 0xFF) * 256 + this->Y);
   
-                this->write(addr,value);
+                this->write(newAddr,value);
                 
-                return addr;
+                return newAddr;
 
                 break;
             case IMPLICIT:
@@ -931,60 +900,38 @@ namespace cpu
 
                 break;
             case IMMEDIATE:
-
                  
-                this->write(this->opINS.value,value);
-                
-                // need to convert to mos6502::i16;
-                return this->opINS.value;
+                this->write(opVal,value);
+                return opVal;
 
                 break;
             case ZEROPAGE:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
-                //
-                mos6502::i16 addr =  this->read(opVal & 0xFF);
+                newAddr =  this->read(opVal & 0xFF);
 
  
-                this->write(addr,value);
+                this->write(newAddr,value);
                 
-                return addr;
+                return newAddr;
                 break;
             case ABSOLUTE:
-
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
-                mos6502::i16 addr= this->read(opVal);
                  
                 this->write(addr,value);
               
                 return addr; 
                 break;
             case RELATIVE:
-
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
-                mos6502::i16 addr =  this->memory[this->PC+opVal];;
+                newAddr =  this->memory[this->PC+opVal];;
                  
-               
-                this->write(addr,value);
+                this->write(newAddr,value);
 
-                return addr;
+                return newAddr;
 
                 break;
             case INDIRECT:
-                
-                mos6502::i8 *opVal = this->opINS.value;
-                // opVal need to be mos7602::i8 or mos6502::i16
-                //
-                mos6502::i16 addr =  this->read(opVal);
+                newAddr =  this->read(opVal);
  
-                this->write(addr,value);
-                return addr;                
+                this->write(newAddr,value);
+                return newAddr;                
                 break;
          
         }       
@@ -1044,7 +991,7 @@ namespace cpu
         }
         std::cout<<") "<<this->opINS.opName;
         if(this->opINS.bytes>=2){
-            std::cout<<" 0x"<<std::hex<<(0xFF & this->opINS.value);
+            std::cout<<" 0x"<<std::hex<<(0xFF & *this->opINS.value);
         }
         std::cout<<" bytes:"<<std::hex<<(0xFF & this->opINS.bytes)<<std::endl;
         
