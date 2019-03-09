@@ -18,6 +18,24 @@ namespace cpu
      * ADD MEMORY TO ACCUMULATOR WITH CARRY
      */
     mos6502::i16 CPU::ADC(mos6502::i16 op){
+        switch(this->opINS){
+            case IMMEDIATE:
+                break;
+            case ZEROPAGE:
+                break;
+            case ZEROPAGEX:
+                break;
+            case ABSOLUTE:
+                break;
+            case ABSOLUTEX:
+                break;
+            case ABSOLUTEY:
+                break;
+            case INDEXED_INDIRECT:
+                break;
+            case INDIRECT_INDEXED:
+                break;
+        }
         return 0;
     }
 
@@ -776,7 +794,7 @@ namespace cpu
         }
         std::cout<<") "<<this->opINS.opName;
         if(this->opINS.bytes>=2){
-            std::cout<<" 0x"<<std::hex<<(0xFF & this->memory[this->PC+1]);
+            std::cout<<" 0x"<<std::hex<<(0xFF & this->opINS.value);
         }
         std::cout<<" bytes:"<<std::hex<<(0xFF & this->opINS.bytes)<<std::endl;
         
