@@ -18,91 +18,224 @@ namespace cpu
      * ADD MEMORY TO ACCUMULATOR WITH CARRY
      */
     mos6502::i16 CPU::ADC(mos6502::i16 op){
-      
-        return 0;
+        // A,Z,C,N = A+M+C
+        // This instruction adds the contents of a memory location to the accumulator together with the carry bit. If overflow occurs the carry bit is set, this enables multiple byte addition to be performed.
+       
+        mos6502::i8 tmp = this->A + this->readWithAddrMode(this->opINS.value) + this->isCarryFlag;
+        this->A = tmp;
+        if(this->A == 0){
+            this->isZeroFlag = 0x1;
+        }
+        if(this->A >> 0x7 > 0){ // BIT 7 SET
+            this->isNeagtiveFlag = 0x1;
+        }
+        this->isCarryFlag = 0x1;  
+
+        // TODO:P REGISTER MUST BE UPDATED
+        // this->P (0x1 << this->ZeroPage | 0x1 << this->CarryFlag | 0x1 << this->NegativeFlag);
+        
+        return tmp;
     }
 
     mos6502::i16 CPU::SBC(mos6502::i16 op){
+        // A,Z,C,N = A-M-(1-C)
+        // This instruction subtracts the contents of a memory location to the accumulator together with the not of the carry bit. If overflow occurs the carry bit is clear, this enables multiple byte subtraction to be performed.
+        ms6502::i8 tmp = this->A-this->readWithAddrMode(this->opINS.value)-(0x1-this->isCarryFlag);
+        this->A = tmp;
+        if(this->A == 0){
+            this->isZeroFlag = 0x1;
+        }
+        if(this->A >> 0x7 > 0){ // BIT 7 SET
+            this->isNegativeFlag = 0x1;
+        }
         
+        this->isCarryFlag = 0x1;
 
+        // TODO:P REGISTER MUST BE UPDATED
+        // this->P (0x1 << this->ZeroPage | 0x1 << this->CarryFlag | 0x1 << this->NegativeFlag);
+        
         return 0;
 
     }
 
     mos6502::i16 CPU::AND(mos6502::i16 op){
+        // A,Z,N = A&M
+        // A logical AND is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
+        mos6502::i8 tmp = this->A & this->readWithAddrMode(this->opINS.value);
+        this->A = tmp;
+        if(this->A == 0){
+            this->isZeroFlag = 0x1;
+        }
+        if(this->A >> 0x7 > 0){
+            this->isNegativeFlag = 0x1;
+        }
+
+        // TODO:P REGISTER MUST BE UPDATED
+        // this->P (0x1 << this->ZeroPage | 0x1 << this->NegativeFlag);
+        
+        
         return 0;
     }
 
     mos6502::i16 CPU::EOR(mos6502::i16 op){
+        // A,Z,N = A^M
+        // An exclusive OR is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
+        mos6502::i8 tmp = this->A ^ this->readWithAddrMode(this->opINS.value);
+        this->A = tmp;
+        if(this->A == 0){
+            this->isZeroFlag = 0x1;
+        }
+        if(this->A >> 0x7 > 0){
+            this->isNegativeFlag = 0x1;
+        }
+
+        // TODO:P REGISTER MUST BE UPDATED
+        // this->P (0x1 << this->ZeroPage | 0x1 << this->NegativeFlag);
+        
+
         return 0;
     }
 
     mos6502::i16 CPU::ORA(mos6502::i16 op){
+        // A,Z,N = A|M
+        // An inclusive OR is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
+        
+        mos6502::i8 tmp = this->A | this->readWithAddrMode(this->opINS.value);
+        this->A = tmp;
+        if(this->A == 0){
+            this->isZeroFlag = 0x1;
+        }
+        if(this->A >> 0x7 > 0){
+            this->isNegativeFlag = 0x1;
+        }
+
+        // TODO:P REGISTER MUST BE UPDATED
+        // this->P (0x1 << this->ZeroPage | 0x1 << this->NegativeFlag);
+         
         return 0;
     }
 
     mos6502::i16 CPU::ASL(mos6502::i16 op){
+        // A,Z,C,N = M<<1 or M,Z,C,N = M<<1
+        // This operation shifts all the bits of the accumulator or memory contents one bit left. Bit 0 is set to 0 and bit 7 is placed in the carry flag. The effect of this operation is to multiply the memory contents by 2 (ignoring 2's complement considerations), setting the carry if the result will not fit in 8 bits.
+      
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::LSR(mos6502::i16 op){
+        // A,C,Z,N = A>>1 or M,C,Z,N = M>>1
+        // Each of the bits in A or M is shift one place to the right. The bit that was in bit 0 is shifted into the carry flag. Bit 7 is set to zero.
+        
+        this->A >>= 0x1;
+        this->writeWithAddrMode(this->opINS.value,this->readWithAddrMode(this->opINS.value)>>0x1);
+        
+        if(this->A == 0){
+            this->isZeroFlag = 0x1;
+        }
+        if(this->A >> 0x7 > 0){
+            this->isNegativeFlag = 0x1;
+        }
+
+
+        // TODO:P REGISTER MUST BE UPDATED
+        // this->P (0x1 << this->ZeroPage | 0x1 << this->NegativeFlag);
+        
         return 0;
     }
 
     mos6502::i16 CPU::ROL(mos6502::i16 op){
+        // Move each of the bits in either A or M one place to the left. Bit 0 is filled with the current value of the carry flag whilst the old bit 7 becomes the new carry flag value.
+
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::ROR(mos6502::i16 op){
+        // Move each of the bits in either A or M one place to the right. Bit 7 is filled with the current value of the carry flag whilst the old bit 0 becomes the new carry flag value.
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::BCC(mos6502::i16 op){
+        // If the carry flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::BCS(mos6502::i16 op){
+        // If the carry flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::BEQ(mos6502::i16 op){
+        // If the zero flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO:
+        //
         return 0;
     }
 
     mos6502::i16 CPU::BNE(mos6502::i16 op){
+        // If the zero flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO:
+        //
         return 0;
     }
 
     mos6502::i16 CPU::BIT(mos6502::i16 op){
+        // A & M, N = M7, V = M6
+        // This instructions is used to test if one or more bits are set in a target memory location. The mask pattern in A is ANDed with the value in memory to set or clear the zero flag, but the result is not kept. Bits 7 and 6 of the value from memory are copied into the N and V flags.
+        
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::BMI(mos6502::i16 op){
+        // If the negative flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO:
+        //
         return 0;
     }
 
     mos6502::i16 CPU::BPL(mos6502::i16 op){
+        // If the negative flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::BRK(mos6502::i16 op){
+        // The BRK instruction forces the generation of an interrupt request. The program counter and processor status are pushed on the stack then the IRQ interrupt vector at $FFFE/F is loaded into the PC and the break flag in the status set to one.
+        // TODO:
         return 0;
     }
 
     mos6502::i16 CPU::BVC(mos6502::i16 op){
+        // If the overflow flag is clear then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO:
+        
         return 0;
     }
 
     mos6502::i16 CPU::BVS(mos6502::i16 op){
+        // If the overflow flag is set then add the relative displacement to the program counter to cause a branch to a new location.
+        // TODO
+        //
         return 0;
     }
 
     mos6502::i16 CPU::CLC(mos6502::i16 op){
+        // C = 0
+        // Set the carry flag to zero.
+        
+        // TODO
+        
         return 0;
     }
 
     mos6502::i16 CPU::SEC(mos6502::i16 op){
-        // SET CARRY FLAG
+        // C = 1
+        // Set the carry flag to one.
         this->P |= (0x1 << this->CarryFlag);
         this->isCarryFlag = 0x1;
         
@@ -110,142 +243,204 @@ namespace cpu
     }
 
     mos6502::i16 CPU::CLD(mos6502::i16 op){
+        // D = 0
+        // Sets the decimal mode flag to zero.
+        //
         return 0;
     }
 
     mos6502::i16 CPU::SED(mos6502::i16 op){
+        // D = 1
+        // Set the decimal mode flag to one.
         return 0;
     }
 
     mos6502::i16 CPU::CLI(mos6502::i16 op){
+        // I = 0
+        // Clears the interrupt disable flag allowing normal interrupt requests to be serviced.
         return 0;
     }
 
     mos6502::i16 CPU::SEI(mos6502::i16 op){
+        // I = 1
+        // Set the interrupt disable flag to one.
         return 0;
     }
 
     mos6502::i16 CPU::CLV(mos6502::i16 op){
+        // V = 0
+        // Clears the overflow flag.
         return 0;
     }
 
     mos6502::i16 CPU::CMP(mos6502::i16 op){
+        // Z,C,N = A-M
+        // This instruction compares the contents of the accumulator with another memory held value and sets the zero and carry flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::CPX(mos6502::i16 op){
+        // Z,C,N = X-M
+        // This instruction compares the contents of the X register with another memory held value and sets the zero and carry flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::CPY(mos6502::i16 op){
+        // Z,C,N = Y-M
+        // This instruction compares the contents of the Y register with another memory held value and sets the zero and carry flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::DEC(mos6502::i16 op){
+        // M,Z,N = M-1
+        // Subtracts one from the value held at a specified memory location setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::DEX(mos6502::i16 op){
+        // X,Z,N = X-1
+        // Subtracts one from the X register setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::DEY(mos6502::i16 op){
+        // Y,Z,N = Y-1
+        // Subtracts one from the Y register setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::INC(mos6502::i16 op){
+        // M,Z,N = M+1
+        // Adds one to the value held at a specified memory location setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::INX(mos6502::i16 op){
+        // X,Z,N = X+1
+        // Adds one to the X register setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::INY(mos6502::i16 op){
+        // Y,Z,N = Y+1
+        // Adds one to the Y register setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::JMP(mos6502::i16 op){
+        // Sets the program counter to the address specified by the operand.
         return 0;
     }
 
     mos6502::i16 CPU::JSR(mos6502::i16 op){
+        // The JSR instruction pushes the address (minus one) of the return point on to the stack and then sets the program counter to the target memory address.
         return 0;
     }
 
     mos6502::i16 CPU::RTS(mos6502::i16 op){
+        // The RTS instruction is used at the end of a subroutine to return to the calling routine. It pulls the program counter (minus one) from the stack.
         return 0;
     }
 
     mos6502::i16 CPU::LDA(mos6502::i16 op){
+        // A,Z,N = M
+        // Loads a byte of memory into the accumulator setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::LDX(mos6502::i16 op){
+        // X,Z,N = M
+        // Loads a byte of memory into the X register setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::LDY(mos6502::i16 op){
+        // Y,Z,N = M
+        // Loads a byte of memory into the Y register setting the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::NOP(mos6502::i16 op){
+        // The NOP instruction causes no changes to the processor other than the normal incrementing of the program counter to the next instruction.
         return 0;
     }
 
     mos6502::i16 CPU::PHA(mos6502::i16 op){
+        // Pushes a copy of the accumulator on to the stack.
         return 0;
     }
 
     mos6502::i16 CPU::PLA(mos6502::i16 op){
+        // Pulls an 8 bit value from the stack and into the accumulator. The zero and negative flags are set as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::PHP(mos6502::i16 op){
+        // Pushes a copy of the status flags on to the stack.
         return 0;
     }
 
     mos6502::i16 CPU::PLP(mos6502::i16 op){
+        // Pulls an 8 bit value from the stack and into the processor flags. The flags will take on new states as determined by the value pulled.
         return 0;
     }
 
     mos6502::i16 CPU::RTI(mos6502::i16 op){
+        // The RTI instruction is used at the end of an interrupt processing routine. It pulls the processor flags from the stack followed by the program counter.
         return 0;
     }
 
     mos6502::i16 CPU::STA(mos6502::i16 op){
+        // M = A
+        // Stores the contents of the accumulator into memory.
         return 0;
     }
 
     mos6502::i16 CPU::STX(mos6502::i16 op){
+        // M = X
+        // Stores the contents of the X register into memory.
         return 0;
     }
 
     mos6502::i16 CPU::STY(mos6502::i16 op){
+        // M = Y
+        // Stores the contents of the Y register into memory.
         return 0;
     }
 
     mos6502::i16 CPU::TAX(mos6502::i16 op){
+        // X = A
+        // Copies the current contents of the accumulator into the X register and sets the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::TXA(mos6502::i16 op){ 
+        // A = X
+        // Copies the current contents of the X register into the accumulator and sets the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::TYA(mos6502::i16 op){
+        // A = Y
+        // Copies the current contents of the Y register into the accumulator and sets the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::TAY(mos6502::i16 op){
+        // Y = A
+        // Copies the current contents of the accumulator into the Y register and sets the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::TSX(mos6502::i16 op){
+        // X = S
+        // Copies the current contents of the stack register into the X register and sets the zero and negative flags as appropriate.
         return 0;
     }
 
     mos6502::i16 CPU::TXS(mos6502::i16 op){
+        // S = X
+        // Copies the current contents of the X register into the stack register.
         return 0;
     }
 
