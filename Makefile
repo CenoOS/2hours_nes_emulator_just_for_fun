@@ -1,7 +1,8 @@
 CXX = g++
 LD = ld
-CFLAGS = -Iinclude  -std=c++11 -Wall -lstdc++
-
+CCFLAGS = -Iinclude -I/usr/include/SDL2  -std=c++11 -Wall -lstdc++
+LIB = -lSDL2 -lSDL2main -lstdc++
+LIB += `sdl2-config --cflags --libs`
 ifeq ($(OS),Windows_NT)
     CCFLAGS += -D WIN32
     ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
@@ -35,8 +36,18 @@ else
 endif
 
 
-all:	ROM.o CPU.o TEST.o	
-	cc -o CPU_TEST obj/TEST.o obj/CPU.o obj/ROM.o -lstdc++
+all:	ROM.o CPU.o TEST.o
+	cc -o CPU_TEST obj/TEST.o obj/CPU.o obj/ROM.o $(LIB)
+
+win:	SDL2_TEST.o
+	cc -o NES_WIN obj/SDL2_TEST.o	obj/App.o $(LIB)
+
+SDL2_TEST.o:	App.o
+	cc $(CCFLAGS) -o obj/SDL2_TEST.o -c test/sdl_test.cpp
+
+App.o:
+	cc $(CCFLAGS) -o obj/App.o -c src/App.cpp $(LIB)
+
 
 TEST.o:
 	cc $(CCFLAGS) -o obj/TEST.o -c test/TEST.cpp
@@ -47,9 +58,15 @@ CPU.o:
 ROM.o:
 	cc $(CCFLAGS) -o obj/ROM.o -c src/ROM.cpp
 
+
 clean:
     ifeq ($(OS),Windows_NT)
 	    del obj/*.o
     else
-	    rm -r obj
+		if [ -d "obj" ]; then \
+	    	rm -r obj; \
+		fi; \
+		mkdir obj
     endif
+
+

@@ -1,0 +1,66 @@
+cc -D LINUX -D AMD64 -o obj/ROM.o -c src/ROM.cpp
+cc -D LINUX -D AMD64 -o obj/CPU.o -c src/CPU.cpp
+src/CPU.cpp: In member function 'mos6502::i16 cpu::CPU::ADC(mos6502::i16)':
+src/CPU.cpp:24:72: error: invalid conversion from 'mos6502::i8* {aka unsigned char*}' to 'mos6502::i16 {aka short unsigned int}' [-fpermissive]
+         mos6502::i8 tmp = this->A + this->readWithAddrMode(this->opINS.value) + this->isCarryFlag;
+                                                            ~~~~~~~~~~~~^~~~~
+In file included from src/CPU.cpp:1:0:
+src/../include/CPU.h:192:22: note:   initializing argument 1 of 'mos6502::i16 cpu::CPU::readWithAddrMode(mos6502::i16)'
+         mos6502::i16 readWithAddrMode(mos6502::i16 addr);
+                      ^~~~~~~~~~~~~~~~
+src/CPU.cpp:30:19: error: 'class cpu::CPU' has no member named 'isNeagtiveFlag'; did you mean 'isNegativeFlag'?
+             this->isNeagtiveFlag = 0x1;
+                   ^~~~~~~~~~~~~~
+                   isNegativeFlag
+src/CPU.cpp: In member function 'mos6502::i16 cpu::CPU::SBC(mos6502::i16)':
+src/CPU.cpp:43:9: error: 'ms6502' has not been declared
+         ms6502::i8 tmp = this->A-this->readWithAddrMode(this->opINS.value)-(0x1-this->isCarryFlag);
+         ^~~~~~
+src/CPU.cpp:44:19: error: 'tmp' was not declared in this scope
+         this->A = tmp;
+                   ^~~
+src/CPU.cpp:44:19: note: suggested alternative: 'tm'
+         this->A = tmp;
+                   ^~~
+                   tm
+src/CPU.cpp: In member function 'mos6502::i16 cpu::CPU::AND(mos6502::i16)':
+src/CPU.cpp:64:72: error: invalid conversion from 'mos6502::i8* {aka unsigned char*}' to 'mos6502::i16 {aka short unsigned int}' [-fpermissive]
+         mos6502::i8 tmp = this->A & this->readWithAddrMode(this->opINS.value);
+                                                            ~~~~~~~~~~~~^~~~~
+In file included from src/CPU.cpp:1:0:
+src/../include/CPU.h:192:22: note:   initializing argument 1 of 'mos6502::i16 cpu::CPU::readWithAddrMode(mos6502::i16)'
+         mos6502::i16 readWithAddrMode(mos6502::i16 addr);
+                      ^~~~~~~~~~~~~~~~
+src/CPU.cpp: In member function 'mos6502::i16 cpu::CPU::EOR(mos6502::i16)':
+src/CPU.cpp:83:72: error: invalid conversion from 'mos6502::i8* {aka unsigned char*}' to 'mos6502::i16 {aka short unsigned int}' [-fpermissive]
+         mos6502::i8 tmp = this->A ^ this->readWithAddrMode(this->opINS.value);
+                                                            ~~~~~~~~~~~~^~~~~
+In file included from src/CPU.cpp:1:0:
+src/../include/CPU.h:192:22: note:   initializing argument 1 of 'mos6502::i16 cpu::CPU::readWithAddrMode(mos6502::i16)'
+         mos6502::i16 readWithAddrMode(mos6502::i16 addr);
+                      ^~~~~~~~~~~~~~~~
+src/CPU.cpp: In member function 'mos6502::i16 cpu::CPU::ORA(mos6502::i16)':
+src/CPU.cpp:103:72: error: invalid conversion from 'mos6502::i8* {aka unsigned char*}' to 'mos6502::i16 {aka short unsigned int}' [-fpermissive]
+         mos6502::i8 tmp = this->A | this->readWithAddrMode(this->opINS.value);
+                                                            ~~~~~~~~~~~~^~~~~
+In file included from src/CPU.cpp:1:0:
+src/../include/CPU.h:192:22: note:   initializing argument 1 of 'mos6502::i16 cpu::CPU::readWithAddrMode(mos6502::i16)'
+         mos6502::i16 readWithAddrMode(mos6502::i16 addr);
+                      ^~~~~~~~~~~~~~~~
+src/CPU.cpp: In member function 'mos6502::i16 cpu::CPU::LSR(mos6502::i16)':
+src/CPU.cpp:131:86: error: invalid conversion from 'mos6502::i8* {aka unsigned char*}' to 'mos6502::i16 {aka short unsigned int}' [-fpermissive]
+         this->writeWithAddrMode(this->opINS.value,this->readWithAddrMode(this->opINS.value)>>0x1);
+                                                                          ~~~~~~~~~~~~^~~~~
+In file included from src/CPU.cpp:1:0:
+src/../include/CPU.h:192:22: note:   initializing argument 1 of 'mos6502::i16 cpu::CPU::readWithAddrMode(mos6502::i16)'
+         mos6502::i16 readWithAddrMode(mos6502::i16 addr);
+                      ^~~~~~~~~~~~~~~~
+src/CPU.cpp:131:45: error: invalid conversion from 'mos6502::i8* {aka unsigned char*}' to 'mos6502::i16 {aka short unsigned int}' [-fpermissive]
+         this->writeWithAddrMode(this->opINS.value,this->readWithAddrMode(this->opINS.value)>>0x1);
+                                 ~~~~~~~~~~~~^~~~~
+In file included from src/CPU.cpp:1:0:
+src/../include/CPU.h:193:22: note:   initializing argument 1 of 'mos6502::i16 cpu::CPU::writeWithAddrMode(mos6502::i16, mos6502::i8)'
+         mos6502::i16 writeWithAddrMode(mos6502::i16 addr,mos6502::i8 value);
+                      ^~~~~~~~~~~~~~~~~
+Makefile:45: recipe for target 'CPU.o' failed
+make: *** [CPU.o] Error 1

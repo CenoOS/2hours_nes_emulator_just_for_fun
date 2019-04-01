@@ -21,13 +21,13 @@ namespace cpu
         // A,Z,C,N = A+M+C
         // This instruction adds the contents of a memory location to the accumulator together with the carry bit. If overflow occurs the carry bit is set, this enables multiple byte addition to be performed.
        
-        mos6502::i8 tmp = this->A + this->readWithAddrMode(this->opINS.value) + this->isCarryFlag;
+        mos6502::i8 tmp = this->A + this->readWithAddrMode(0xFFFF & *this->opINS.value) + this->isCarryFlag;
         this->A = tmp;
         if(this->A == 0){
             this->isZeroFlag = 0x1;
         }
         if(this->A >> 0x7 > 0){ // BIT 7 SET
-            this->isNeagtiveFlag = 0x1;
+            this->isNegativeFlag = 0x1;
         }
         this->isCarryFlag = 0x1;  
 
@@ -40,7 +40,7 @@ namespace cpu
     mos6502::i16 CPU::SBC(mos6502::i16 op){
         // A,Z,C,N = A-M-(1-C)
         // This instruction subtracts the contents of a memory location to the accumulator together with the not of the carry bit. If overflow occurs the carry bit is clear, this enables multiple byte subtraction to be performed.
-        ms6502::i8 tmp = this->A-this->readWithAddrMode(this->opINS.value)-(0x1-this->isCarryFlag);
+        mos6502::i8 tmp = this->A-this->readWithAddrMode(0xFFFF & *this->opINS.value)-(0x1-this->isCarryFlag);
         this->A = tmp;
         if(this->A == 0){
             this->isZeroFlag = 0x1;
@@ -61,7 +61,7 @@ namespace cpu
     mos6502::i16 CPU::AND(mos6502::i16 op){
         // A,Z,N = A&M
         // A logical AND is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
-        mos6502::i8 tmp = this->A & this->readWithAddrMode(this->opINS.value);
+        mos6502::i8 tmp = this->A & this->readWithAddrMode(0xFFFF & *this->opINS.value);
         this->A = tmp;
         if(this->A == 0){
             this->isZeroFlag = 0x1;
@@ -80,7 +80,7 @@ namespace cpu
     mos6502::i16 CPU::EOR(mos6502::i16 op){
         // A,Z,N = A^M
         // An exclusive OR is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
-        mos6502::i8 tmp = this->A ^ this->readWithAddrMode(this->opINS.value);
+        mos6502::i8 tmp = this->A ^ this->readWithAddrMode(0xFFFF & *this->opINS.value);
         this->A = tmp;
         if(this->A == 0){
             this->isZeroFlag = 0x1;
@@ -100,7 +100,7 @@ namespace cpu
         // A,Z,N = A|M
         // An inclusive OR is performed, bit by bit, on the accumulator contents using the contents of a byte of memory.
         
-        mos6502::i8 tmp = this->A | this->readWithAddrMode(this->opINS.value);
+        mos6502::i8 tmp = this->A | this->readWithAddrMode(0xFFFF & *this->opINS.value);
         this->A = tmp;
         if(this->A == 0){
             this->isZeroFlag = 0x1;
@@ -128,7 +128,7 @@ namespace cpu
         // Each of the bits in A or M is shift one place to the right. The bit that was in bit 0 is shifted into the carry flag. Bit 7 is set to zero.
         
         this->A >>= 0x1;
-        this->writeWithAddrMode(this->opINS.value,this->readWithAddrMode(this->opINS.value)>>0x1);
+        this->writeWithAddrMode(0xFFFF & *this->opINS.value,this->readWithAddrMode(0xFFFF & *this->opINS.value) >> 0x1);
         
         if(this->A == 0){
             this->isZeroFlag = 0x1;
