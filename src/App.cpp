@@ -1,6 +1,10 @@
 #include "../include/App.h"
 #include "../include/Log.h"
 
+
+#include <vector>
+
+
 App App::Instance;
 
 
@@ -14,6 +18,12 @@ void App::OnEvent(SDL_Event* Event) {
 }
 
 bool App::Init() {
+    this->ppu = new ppu::PPU(); 
+    this->rom = new rom::ROM();
+    this->rom->loadNesFile("game_rom/donkykong.nes");
+
+
+
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
         Log("Unable to Init SDL: %s", SDL_GetError());
         return false;
@@ -25,7 +35,7 @@ bool App::Init() {
                     
     }
 
-    if((Window = SDL_CreateWindow("Window",
+    if((Window = SDL_CreateWindow("NeroNES",
                     SDL_WINDOWPOS_UNDEFINED, 
                     SDL_WINDOWPOS_UNDEFINED,
                     WindowWidth, WindowHeight,
@@ -54,8 +64,41 @@ void App::Loop() {
 }
 
 void App::Render() {
+   
+
+    // get CHR rom
+    std::vector<mos6502::i8> rom = this->rom->getPRGROM()[0];
     
+    // process CHR mata data
+    
+    for(int i = 0; i < (int)rom.size()-15; i+16){
+        for(int j = i; j<i+16-1; j+=2){
+            mos6502::i8 first  = rom[j];
+            mos6502::i8 second = rom[j+1];
+
+            mos6502::i8 *result = ppu->addTileInt8(first,second);// tile add
+
+        }
+    }
+
+
+
+
     SDL_RenderClear(Renderer);
+    
+    for(int i = 0; i< WindowHeight/4; i++){
+        for(int j = 0; j<WindowWidth/4; j++){
+            SDL_SetRenderDrawColor(Renderer, (1>255?i%255:i), (j>=255?j%255:j), 0, 255);
+            SDL_Rect rect{
+                i*4,
+                j*4,
+                4,
+                4
+            };
+            SDL_RenderFillRect(Renderer,&rect);
+            // SDL_RenderDrawPoint(Renderer, i, j);
+        }
+    }
 
     SDL_RenderPresent(Renderer);
 
@@ -85,7 +128,7 @@ int App::Execute(int argc, char* argv[]) {
             }
             Loop();
             Render();
-            SDL_Delay(1); // Breath                           
+            // SDL_Delay(1); // Breath                           
         }
         Cleanup();
         return 1;

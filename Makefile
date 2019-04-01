@@ -40,14 +40,16 @@ all:	ROM.o CPU.o TEST.o
 	cc -o CPU_TEST obj/TEST.o obj/CPU.o obj/ROM.o $(LIB)
 
 win:	SDL2_TEST.o
-	cc -o NES_WIN obj/SDL2_TEST.o	obj/App.o $(LIB)
+	cc -o NES_WIN obj/SDL2_TEST.o	obj/App.o obj/ROM.o obj/PPU.o $(LIB)
 
 SDL2_TEST.o:	App.o
 	cc $(CCFLAGS) -o obj/SDL2_TEST.o -c test/sdl_test.cpp
 
-App.o:
+App.o:		ROM.o PPU.o
 	cc $(CCFLAGS) -o obj/App.o -c src/App.cpp $(LIB)
 
+PPU.o:
+	cc $(CCFLAGS) -o obj/PPU.o -c src/PPU.cpp
 
 TEST.o:
 	cc $(CCFLAGS) -o obj/TEST.o -c test/TEST.cpp

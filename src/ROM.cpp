@@ -68,7 +68,7 @@ namespace rom{
      
     }
 
-    mos6502::i8 ROM::loadNesFile(char* file){
+    mos6502::i8 ROM::loadNesFile(const char* file){
         std::fstream nesFile;
         nesFile.open(file,std::ios::binary | std::ios::in);
         if(!nesFile){
@@ -185,6 +185,11 @@ namespace rom{
                 this->CHRROM.push_back(CHRROM_BANK);
             }
         }
+
+
+
+
+
     }
 
     ROM::~ROM(){

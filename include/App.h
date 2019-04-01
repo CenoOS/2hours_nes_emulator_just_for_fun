@@ -2,6 +2,9 @@
 #define __APP_H__
 
 #include <SDL.h>
+#include "../include/ROM.h"
+#include "../include/PPU.h"
+
 
 class App{
     
@@ -14,9 +17,12 @@ class App{
         SDL_Renderer* Renderer = NULL;
         SDL_Surface* PrimarySurface = NULL;
 
-        static const int WindowWidth = 1024;
-        static const int WindowHeight = 768;
-    
+        static const int WindowWidth = 256*4;
+        static const int WindowHeight = 240*4;
+
+        rom::ROM *rom = NULL;
+        ppu::PPU *ppu = NULL;
+        
     private:
         
         App();

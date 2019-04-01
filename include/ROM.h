@@ -96,7 +96,7 @@ namespace rom{
 
             std::vector<std::vector<mos6502::i8>> getPRGROM(){return this->PRGROM;}
             std::vector<std::vector<mos6502::i8>> getCHRROM(){return this->CHRROM;}
-            mos6502::i8 loadNesFile(char* file);
+            mos6502::i8 loadNesFile(const char* file);
 
 
             ~ROM();

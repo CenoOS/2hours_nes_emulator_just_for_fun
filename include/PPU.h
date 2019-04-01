@@ -6,9 +6,12 @@
 #include <string>
 
 
-namespace nes{
-
-
+namespace ppu{
+    
+    typedef struct Tile{
+        mos6502::i8 data[8][8];
+    } Tile;
+    
     class PPU{
         
         private:
@@ -23,18 +26,20 @@ namespace nes{
             // buffers
             
 
-
         public:
+
+            PPU();
             
             void step();
-            
-        
-    }       private:
-    
-    
-    public:
-    
 
+            mos6502::i8 *addTileInt8(mos6502::i8 first,mos6502::i8 second); 
+
+
+            ~PPU();
+
+
+        
+    };
 };
 
 #endif // !__PPU_H__
