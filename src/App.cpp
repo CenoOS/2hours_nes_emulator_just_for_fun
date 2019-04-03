@@ -3,7 +3,7 @@
 
 
 #include <vector>
-
+#include <math.h>
 
 App App::Instance;
 
@@ -70,18 +70,20 @@ void App::Render() {
     std::vector<mos6502::i8> rom = this->rom->getPRGROM()[0];
     
     // process CHR mata data
-    
-    for(int i = 0; i < (int)rom.size()-15; i+16){
-        for(int j = i; j<i+16-1; j+=2){
-            mos6502::i8 first  = rom[j];
-            mos6502::i8 second = rom[j+1];
-
-            mos6502::i8 *result = ppu->addTileInt8(first,second);// tile add
-
+    std::vector<ppu::Tile> tiles;
+    for(int i = 0; i < (int)rom.size()-15; i+=16){
+        
+        ppu::Tile tile;
+        
+        for(int j = i; j<i+15; j+=2){
+            mos6502::i8 *result = ppu->addTileInt8(rom[j], rom[j+1]);// tile add
+            for(int k = 0; k<7; k++){
+                int floor_ = floor((j-i)/2);
+                tile.data[floor_][k] = result[k];
+            }
         }
+        tiles.push_back(tile);
     }
-
-
 
 
     SDL_RenderClear(Renderer);
