@@ -62,7 +62,7 @@ bool App::Init() {
 void App::Loop() {
 
 }
-
+#include <iostream>
 void App::Render() {
    
 
@@ -76,31 +76,103 @@ void App::Render() {
         ppu::Tile tile;
         
         for(int j = i; j<i+15; j+=2){
-            mos6502::i8 *result = ppu->addTileInt8(rom[j], rom[j+1]);// tile add
+            mos6502::i8 result[8];
+            mos6502::i8 *result_arr = ppu->addTileInt8(rom[j], rom[8+j], result);// first is low bits, second is high bits
             for(int k = 0; k<7; k++){
                 int floor_ = floor((j-i)/2);
-                tile.data[floor_][k] = result[k];
+                tile.data[floor_][k] = result_arr[k];
             }
         }
+
         tiles.push_back(tile);
     }
 
-
     SDL_RenderClear(Renderer);
-    
-    for(int i = 0; i< WindowHeight/4; i++){
-        for(int j = 0; j<WindowWidth/4; j++){
-            SDL_SetRenderDrawColor(Renderer, (1>255?i%255:i), (j>=255?j%255:j), 0, 255);
+   
+
+    // GAME RENDER AREA
+    for(int i = 0; i< WindowWidth/4; i++){
+        for(int j = 0; j<WindowHeight/4; j++){
+            SDL_SetRenderDrawColor(Renderer, i, j, 0, 255);
             SDL_Rect rect{
-                i*4,
-                j*4,
-                4,
-                4
+                i*2,
+                j*2,
+                2,
+                2
             };
             SDL_RenderFillRect(Renderer,&rect);
-            // SDL_RenderDrawPoint(Renderer, i, j);
+            //SDL_RenderDrawPoint(Renderer, i, j);
         }
     }
+
+
+    // PPU RENDER AREA
+    int J_INDEX = 0;
+    for(int t = 0; t < tiles.size(); t++){
+        for(int i = 0; i<8; i++){
+            for(int j = 0; j<8; j++){
+                if(tiles[t].data[i][j]==0){
+                    SDL_SetRenderDrawColor(Renderer,0,0,0,255);
+                }
+                if(tiles[t].data[i][j]==1){
+                    SDL_SetRenderDrawColor(Renderer,100,0,0,255);
+                }
+                if(tiles[t].data[i][j]==2){
+                    SDL_SetRenderDrawColor(Renderer,0,100,0,255);
+                }
+                if(tiles[t].data[i][j]==3){
+                    SDL_SetRenderDrawColor(Renderer,0,0,100,255);
+                }
+
+                // SDL_SetRenderDrawColor(Renderer,tiles[t].data[i][j]*50, tiles[t].data[i][j]*50, tiles[t].data[i][j]*50, 255);
+                SDL_Rect rect{
+                    WindowWidth/2 + (t%32)*8*2 + i*2,
+                    (8*J_INDEX)*2 + j*2,
+                    2,
+                    2
+                };
+                SDL_RenderFillRect(Renderer,&rect);
+                // SDL_RenderDrawPoint(Renderer, WindowWidth/2 + (t%32)*8 + i,8*J_INDEX+j);
+            }
+        }
+        
+        if(t % 32 == 0){
+            J_INDEX++;
+        }
+
+    }
+
+
+    // APU RENDER AREA
+    for(int i = 0; i< WindowWidth/4; i++){
+        for(int j = 0; j<WindowHeight/4; j++){
+            SDL_SetRenderDrawColor(Renderer, 0, 255, 0, 255);
+            SDL_Rect rect{
+                i*2,
+                WindowHeight/2 + j*2,
+                2,
+                2
+            };
+            SDL_RenderFillRect(Renderer,&rect);
+            //SDL_RenderDrawPoint(Renderer, i, WindowHeight/2 + j);
+        }
+    }
+
+    // CPU RENDER AREA
+    for(int i = 0; i< WindowWidth/4; i++){
+        for(int j = 0; j<WindowHeight/4; j++){
+            SDL_SetRenderDrawColor(Renderer, 0, 0, 255, 255);
+            SDL_Rect rect{
+                WindowWidth/2 + i*2,
+                WindowHeight/2 + j*2,
+                2,
+                2
+            };
+            SDL_RenderFillRect(Renderer,&rect);
+            // SDL_RenderDrawPoint(Renderer, WindowWidth/2 + i, WindowHeight/2 + j);
+        }
+    }
+
 
     SDL_RenderPresent(Renderer);
 

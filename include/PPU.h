@@ -32,7 +32,7 @@ namespace ppu{
             
             void step();
 
-            mos6502::i8 *addTileInt8(mos6502::i8 first,mos6502::i8 second); 
+            mos6502::i8 *addTileInt8(mos6502::i8 first,mos6502::i8 second, mos6502::i8 *result); 
 
 
             ~PPU();
